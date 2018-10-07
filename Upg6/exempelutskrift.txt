@@ -1,0 +1,49 @@
+Välkommen till PetRobo! Vad kan jag stå till tjänst med?
+1. Lista husdjur och deras status
+2. Leta upp djur
+3. Avsluta
+1
+
+1. Hunden Myran, Hunger: 3, Klappbehov: 4
+2. Katten Smulan, Hunger: 1, Klappbehov: 5
+3. Leguanen Yoda, Hunger: 5, Klappbehov: 2
+
+Vad kan jag stå till tjänst med?
+1. Lista husdjur och deras status
+2. Leta upp djur
+3. Avsluta
+2
+
+Vilket djur vill du att jag letar upp?
+Smulan
+
+Hittade Smulan under soffan, vad ska jag göra nu?
+1. Klappa Smulan
+2. Mata Smulan
+3. Tillbaka till huvudmenyn
+1
+
+Klappar Smulan
+Vad ska jag göra nu?
+1. Klappa Smulan
+2. Mata Smulan
+3. Tillbaka till huvudmenyn
+3
+
+Vad kan jag stå till tjänst med?
+1. Lista husdjur och deras status
+2. Leta upp djur
+3. Avsluta
+1
+
+1. Hunden Myran, Hunger: 3, Klappbehov: 4
+2. Katten Smulan, Hunger: 1, Klappbehov: 4
+3. Leguanen Yoda, Hunger: 5, Klappbehov: 2
+
+Vad kan jag stå till tjänst med?
+1. Lista husdjur och deras status
+2. Leta upp djur
+3. Avsluta
+3
+
+Programmet avslutas. Tack för att du använder PetRobo!

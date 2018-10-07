@@ -1,0 +1,47 @@
+Instruktion
+------------------------------------------------------------------------------------------------------------
+1.)
+Skapa en klass som representerar ett husdjur som har minst tre attribut 
+(t.ex. namn, hunger och klappbehov). 
+Du väljer själva vilken datatyp du vill att attributen ska ha. 
+Definiera en konstruktor för klassen.
+2.)
+Definiera en __repr__-metod och en __lt__-metod 
+(du får själv välja vilket/vilka attribut du vill sortera efter). 
+3.)
+Definiera minst två metoder till (t.ex. klappa() och mata()). 
+Se till att dessa metoderna ändrar värdet attributen på något sätt.
+4.)
+Skapa ett objekt av klassen och prova att det går att skriva ut 
+husdjurens värden med print(). Passa också på och testa att metoderna fungerar.
+5.)
+Skapa nu flera olika husdjur och lägg dem i en lista. 
+Sortera listan och  skriv en slinga som skriver ut alla husdjur.
+6.)
+Skapa en fil med den data som ska finnas för husdjuren och 
+skriv om programmet så att det skapar alla husdjur utifrån den 
+information som finns i filen. Skriv även en funktion för att skriva 
+till fil för att spara ändringar som gjorts.
+7.)
+Bygg upp en användarvänlig meny i stil med exemplet ovan.
+
+
+Krav på lösning
+
+- Högst upp i filen ska det finnas en kommentar med en kort beskrivning av 
+  programmet, namn, datum och kurskod.
+- Namnge alla variabler, funktioner, klassen och metoder enligt reglerna i kursmaterialet.
+- Varje funktion och metod ska ha en förklarande kommentar där det också framgår vilka 
+  inparametrar funktionen/metoden tar emot och vad den returnerar (inklusive konstruktorn, __repr__ och __lt__).
+- Inga globala variabler får förekomma, använd parametrar och returvärden.
+- Programmet ska vara uppdelat i funktioner och metoder enligt lydelsen. 
+  En funktion eller metod får inte vara längre än 30 rader, då måste den delas upp i flera.
+- Programmet ska läsa in från en textfil en gång, baserat på den datan som finns i textfilen 
+  ska programmet skapa objekt (det ska alltså gå att lägga till/ta bort djur genom att ändra i textfilen).
+- Programmet ska skriva till samma textfil en gång, strax innan det att programmet avslutas.
+- Du ska skapa en klass och skapa minst tre olika objekt/instanser av den klassen 
+  (men programmet ska fungerar för ett godtyckligt antal husdjur, baserat på den data som finns i textfilen).
+- Dina husdjurs-objekt ska vara lagrade i en lista.
+- Man ska kunna ändra på husdjurens attribut genom att via menyn anropa olika metoder. 
+- Man ska kunna få ut en sorterad lista av alla husdjuren och deras tillstånd.
+- Programmet ska ha användarvänlig meny i stil med exemplet i uppgiften.

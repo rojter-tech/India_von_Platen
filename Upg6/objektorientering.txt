@@ -1,0 +1,180 @@
+Attribut
+------------------------------------------------------------------------------------------------------------
+De variabler som används för att lagra data som hör till objektet kallas attribut. 
+Våra husdjursobjekt ska alltså ha attributen namn och skick. 
+Om man har flera objekt av samma typ är attributens värde helt oberoende av varandra. 
+Två olika husdjur får ha olika namn och olika skick.
+
+Det finns en synlig skillnad mellan attribut och vanliga variabler. 
+Inuti klassen använder man alltid ordet self när man vill komma åt ett attribut. 
+
+Man kan till exempel skriva så här:
+
+    self.namn = "Fido"
+
+(Med self menar man objektet självt.)
+
+
+Metoder
+------------------------------------------------------------------------------------------------------------
+Funktionerna som hör till ett objekt kallas metoder. 
+För att en funktion ska bli en metod måste den definieras inuti klassen. 
+Den första parametern i en metod måste alltid vara self. 
+Via self kan metoden använda objektets attribut.
+
+Säg att vi vill ha en metod som ger vårt husdjur bannor (i uppfostrande syfte). 
+Metoden ska visa bannorna, och även minska värdet på skick eftersom husdjuret blir på sämre humör.
+
+    def banna(self):
+        print()
+        print("- Fy på dig", self.namn, "!")
+        self.skick -= 3
+
+Som synes skriver man en metod precis som en funktion, sånär som på ordet self. Samma regler för parametrar och returvärden gäller.
+
+Husdjursklassen ska så småningom få metoder som gör följande:
+
+- skapar ett husdjursobjekt och ger attributen värden
+- visar i vilket skick husdjuret är
+- bannar husdjuret
+- matar husdjuret
+- leker med husdjuret
+- tar avsked av husdjuret
+
+
+Speciella metoder: konstruktorn och str
+------------------------------------------------------------------------------------------------------------
+Metoder får man döpa precis som man vill.
+Men det finns ett par metodnamn som har speciell betydelse för Python. 
+Här tar vi upp två av dessa. Metodnamnen börjar och slutar med två understrykningstecken, 
+så det finns ingen risk att man råkar välja namnen av misstag.
+
+Konstruktorn är en speciell metod som man skriver för att initiera objekt, 
+dvs ge objektets attribut de värden de ska ha från början. 
+Konstruktorn anropas automatiskt varje gång ett objekt skapas. 
+I Python måste man döpa sin konstruktor till __init__ (alltså init med två understrykningstecken både före och efter).
+
+Konstruktorn för vårt husdjursobjekt kommer att se ut så här:
+
+    def __init__(self, djurnamn):
+        self.namn = djurnamn
+        self.skick = 0
+
+Den här konstruktorn har två parametrar, self (som ju alltid måste vara med) och djurnamn. 
+Raden self.namn = djurnamn skapar attributet namn och initierar det till värdet av parametern djurnamn. 
+På samma sätt skapar raden self.skick = 0 attributet skick och initierar det till noll. 
+Varje gång man gör ett nytt objekt kommer konstruktorn att anropas.
+
+Den andra specialmetoden vi ska ta upp här heter __str__, 
+och det speciella med den är att den anropas varje gång man försöker skriva ut ett objekt med print. 
+Här kan man alltså tala om hur man vill att objektets data ska skrivas ut. 
+Exempel:
+
+    def __str__(self):
+        return self.namn + "*" + str(self.skick)
+
+Metoden __str__ är särskilt användbar under tiden man arbetar med programmet, 
+för att det blir enklare att göra kontrollutskrifter.
+
+
+Klassen
+------------------------------------------------------------------------------------------------------------
+För att kunna skapa ett objekt måste man först definiera en klass. 
+Det är i klassen man skriver de metoder som objektet ska ha. 
+Klasser brukar ha namn som börjar med versal, så att man lätt ska kunna se att det är en klass. 
+Så här långt har vi hunnit i vår husdjursklass hittills:
+
+# En klass som beskriver ett virtuellt husdjur.
+# Attribut:
+#    namn - djurets nanm
+#    skick - ett heltal som beskriver djurets skick
+class Husdjur:
+
+    # Konstruktorn
+    def __init__(self, djurnamn):
+        self.namn = djurnamn
+        self.skick = 0
+
+    # För utskrift med print
+    def __str__(self):
+        return self.namn + "*" + str(self.skick)
+
+    # Ger husdjuret bannor. Skick minskas.
+    def banna(self):
+        print()
+        print("- Fy på dig", self.namn, "!")
+        self.skick -= 3
+
+
+Med en klass är det likadant som med en funktion - det händer inget förrän man använder den i huvudprogrammet. 
+För att skapa ett Husdjurs-objekt kan vi skriva:
+
+djur = Husdjur("Muffin")
+
+Det som händer här är att konstruktorn __init__ anropas, så att attributen skapas och initieras. 
+Sen returneras ett Husdjurs-objekt, som lagras i variabeln djur
+
+Nu har vi ett husdjursobjekt i variabeln djur. Hur anropar vi en av djurets metoder? 
+Just nu finns bara metoden banna att välja på:
+
+djur.banna()
+
+När vi vill komma åt ett attribut inuti klassen använder vi ju en punkt, 
+och ett liknande skrivsätt använder man alltså när man vill anropa en metod från ett objekt.
+
+
+Exempel: Husdjursprogrammet
+------------------------------------------------------------------------------------------------------------
+
+Här följer hela programmet, först Husdjurs-klassen, och sedan huvudprogrammet. Lägg märke till att alla metoderna i klassen är indenterade.
+---> Se Husdjurexempel.py
+
+Provkör programmet.
+
+
+Sortering av en lista med objekt
+------------------------------------------------------------------------------------------------------------
+Oftast skapar man fler än ett objekt i sitt program. 
+Då är det praktiskt att spara objekten i en lista. 
+En lista med objekt kan enkelt sorteras efter sina attribut. 
+Men på något sätt måste man ange vilket attribut man vill sortera på. 
+Är det namn eller skick?
+
+Så här kan sortering av en lista skrivas:
+
+   lista.sort(key = lambda x:x.attr)
+
+Parametern key i sort visar att man vill ange vilket attribut man vill sortera på. 
+Uttrycket lambda x:x.attribut är som en liten funktion i miniatyr där parametern 
+står före kolonet och returvärdet efter. 
+Om vi tänker oss att x är objektet så är attr det av objektets attribut som vi 
+vill sortera på.
+
+Om det attribut man sorterar på är en sträng görs sorteringen efter bokstavsordning. 
+Är attributet ett tal så blir objekten sorterade i stigande ordning. 
+Vi förenklar Husdjursklassen en aning och visar med exemplet nedan hur sorteringen 
+kan göras i praktiken:
+
+---> Se Husdjursortering.py
+
+
+Kort sammanfattning
+------------------------------------------------------------------------------------------------------------
+- Ett objekt är en datatyp som kan innehålla både data (attribut) och funktioner (metoder).
+- Den del av programmet där man definierar attribut och metoder kallas en klass.
+- En klass är en mall för ett objekt. Ett objekt är en instans av en klass.
+- self är en referensvariabel som refererar inifrån objektet till objektet självt.
+- Följande skapar ett objekt:
+- katten = Husdjur("Missan")
+
+Konstruktorn __init__ anropas automatiskt och attributen ges värden. 
+En referens till objektet returneras (till katten).
+
+Metoder anropas sedan via objektet:
+
+katten.banna()
+katten.mata(bullar)
+katten.leka()
+
+I övrigt så fungerar metoder som vilken funktion som helst, 
+i det att de kan ha parametrar och returvärden.
