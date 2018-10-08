@@ -1,5 +1,5 @@
-Buster -310 100
-Dragan 100 100
-Fredrik 100 100
+Buster -680 10
+Dragan 50 60
 Goran 100 100
-Klaes 70 50
+Molly 100 100
+Olof 100 100

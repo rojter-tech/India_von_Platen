@@ -33,10 +33,12 @@ class Husdjur:
     """En parameter, drar bort värdet 10 från attributets värde då användaren väljer att klappa djuret.
     """
 
+def printaMenyAvskiljare():
+    print('\n' + "..............:::::.............." + '\n')
 
 def mojligaPlatser():
     a = " fanns under soffan.."
-    b = " hade gomt sig i garderoben.."
+    b = " hade gömt sig i garderoben.."
     c = " har ramlat fran balkongen.."
     d = " ser helt lost ut.."
     e = " har saknat dig.."
@@ -49,8 +51,8 @@ def mojligaPlatser():
 def hanteraHusdjur(djur):
     """En parameter, skriver ut menyn för varje husdjur.
     """
+    printaMenyAvskiljare()
     plats = mojligaPlatser()
-    print("")
     print(djur.namn + plats)
     print("1. Mata " + djur.namn + "\n2. Klappa " + djur.namn + "\n3. Tillbaka till huvudmenyn.")
     svar= input("Vad vill du göra?(1,2 eller 3): ")
@@ -58,20 +60,21 @@ def hanteraHusdjur(djur):
         if svar[0] == "1":
             mat = 10
             djur.mata(mat)
+            printaMenyAvskiljare()
             print(djur.namn + " är nu så här mätt: " + str(djur.hunger))
             svar = "0"
         elif svar[0] == "2":
             klapp = 10
             djur.klappa(klapp)
+            printaMenyAvskiljare()
             print(djur.namn + " är så här klappad: " + str(djur.klappBehov))
             svar="0"
         elif svar[0] == "3":
             break
         else:
-            print("")
+            printaMenyAvskiljare()
             print("1. Mata " + djur.namn + "\n2. Klappa " + djur.namn + "\n3. Tillbaka till huvudmenyn.")
-            svar = input("Vad vill du göra?(1,2 eller 3): ")
-            print("")
+            svar = input("Vad vill du göra?(1,2 eller 3): " + '\n')
 
 
 def sparaHusdjur(husdjursLista):
@@ -81,12 +84,12 @@ def sparaHusdjur(husdjursLista):
     husdjurTXT = open("husdjursLista.txt", "w")
     for dj in husdjursLista:
         husdjurTXT.write(dj.namn + ' ' + str(dj.hunger) + ' ' + str(dj.klappBehov) + '\n')
-    print("")
+    printaMenyAvskiljare()
     print("Välkommen åter!")
 
 
 def taBortHusdjur(husdjursLista):
-    print("")
+    printaMenyAvskiljare()
     print("Vilket djur vill du ta bort?")
     i = 1
     for pr in husdjursLista:
@@ -95,40 +98,35 @@ def taBortHusdjur(husdjursLista):
     taBort = int(input("Välj nummer: "))
     djur = husdjursLista[taBort-1]
     del husdjursLista[taBort-1]
-    print("")
-    print("Vad trakigt att " + djur.namn + " inte langre ar med oss! :(")
-    print("")
+    print("Vad tråkigt att " + djur.namn + " inte längre ar med oss! :(" + '\n')
 
 
 def laggTillHusdjur(husdjursLista):
-    print("")
+    printaMenyAvskiljare()
     nyttDjur = input("Vad heter ditt nya djur?: ")
     husdjursLista.append(Husdjur(nyttDjur))
     husdjursLista.sort(key=lambda husdjur:husdjur.namn)
-    print("")
-    print("Vi valkomnar " + nyttDjur + " till familjen, som just flyttat in!")
-    print("")
+    print('\n' + "Vi välkomnar " + nyttDjur + " till familjen, som just flyttat in!")
 
 
 def hittaHusdjur(husdjursLista):
-    print("")
+    printaMenyAvskiljare()
     for pr in husdjursLista:
         print(pr.namn[0] + ': ' + pr.namn)
     hittaDjur = input("Vilket djur vill du hitta?: ")
     for dj in husdjursLista:
         if dj.namn[0] == hittaDjur[0]:
             hanteraHusdjur(dj)
-    print("")
 
 
 def listaHusdjur(husdjursLista):
-    print("")
+    printaMenyAvskiljare()
     for pr in husdjursLista:
-        print(pr.namn + " ar " + str(pr.hunger) + "% tom i magen och behover " + str(pr.klappBehov) + "% karlek.")
-    print("")
+        print(pr.namn + " är " + str(pr.hunger) + "% tom i magen och behover " + str(pr.klappBehov) + "% kärlek.")
 
 
 def printaHuvudMeny():
+    printaMenyAvskiljare()
     print("1. Lista husdjuren och deras status.\n2. Leta upp ett husdjur.")
     print("3. Lägg till ett nytt husdjur.\n4. Ta bort ett husdjur. \n5. Avsluta.")
     svar = input("Vad vill du göra?: ")
@@ -138,7 +136,7 @@ def printaHuvudMeny():
 def körPetRobo(husdjursLista):
     """En parameter, skriver ut menyn.
     """
-    print("Välkommen till PetRobo!\n")
+    print("      " + "Välkommen till PetRobo!")
     svar = printaHuvudMeny()
     while svar:
         if svar[0] == "1":
