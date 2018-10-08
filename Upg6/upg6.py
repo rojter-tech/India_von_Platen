@@ -3,7 +3,7 @@
 #Påbörjades den 7/10- 2018
 #DD100N
 import random
-
+import os
 
 class Husdjur:
     def __init__(self, namn, hunger = 100, klappBehov = 100):
@@ -32,6 +32,21 @@ class Husdjur:
         self.klappBehov -= klapp
     """En parameter, drar bort värdet 10 från attributets värde då användaren väljer att klappa djuret.
     """
+
+
+def kollaHudjurslistaTextFil():
+    txtFil = "./husdjursLista.txt"
+    finnsFil = os.path.isfile(txtFil)
+    if finnsFil:
+        husdjurTXT = open(txtFil, "r")
+        husdjurSträng = husdjurTXT.readline()
+        if husdjurSträng == '':
+            husdjurTXT = open(txtFil, "w")
+            husdjurTXT.write("Exempeldjur" + ' ' + str(100) + ' ' + str(100) + '\n')
+    else:
+        husdjurTXT = open(txtFil, "w")
+        husdjurTXT.write("Exempeldjur" + ' ' + str(100) + ' ' + str(100) + '\n')
+
 
 def laggTillHusdjur(husdjursLista):
     print("")
@@ -144,7 +159,7 @@ def hittaHusdjur(husdjursLista):
 def listaHusdjur(husdjursLista):
     print("")
     for pr in husdjursLista:
-        print(pr.namn + " ar " + str(pr.hunger) + " % tom i magen och behover " + str(pr.klappBehov) + " % karlek.")
+        print(pr.namn + " ar " + str(pr.hunger) + "% tom i magen och behover " + str(pr.klappBehov) + "% karlek.")
     print("")
 
 
@@ -180,11 +195,13 @@ def körPetRobo(husdjursLista):
             svar = printaHuvudMeny()
 
 
+
 def main():
     """Ingen parameter, huvudfunktion, hämtar husdjurslistan och kor programmet.
     """
-    husdjursLista = hämtaHusdjur()
-    körPetRobo(husdjursLista)
+    kollaHudjurslistaTextFil()
+    körPetRobo(hämtaHusdjur())
+
 
 main()
 """Globalt anrop av huvudfunktion.
