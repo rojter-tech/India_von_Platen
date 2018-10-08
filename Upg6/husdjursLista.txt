@@ -1,0 +1,5 @@
+Buster 100 100
+Dragan 100 100
+Fredrik 100 100
+Goran 100 100
+Klaes 70 50
