@@ -158,6 +158,7 @@ def printaHuvudMeny():
 def körPetRobo(husdjursLista):
     """En parameter, skriver ut menyn.
     """
+    print("Välkommen till PetRobo!\n")
     svar = printaHuvudMeny()
     while svar:
         if svar[0] == "1":
@@ -180,10 +181,11 @@ def körPetRobo(husdjursLista):
 
 
 def main():
-    """Ingen parameter, huvudfunktion, hämtar husdjurslistan samt sorterar denna.
+    """Ingen parameter, huvudfunktion, hämtar husdjurslistan och kor programmet.
     """
-    print("Välkommen till PetRobo!\n")
     husdjursLista = hämtaHusdjur()
     körPetRobo(husdjursLista)
 
 main()
+"""Globalt anrop av huvudfunktion.
+"""
