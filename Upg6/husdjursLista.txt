@@ -1,4 +1,4 @@
-Buster 100 100
+Buster -310 100
 Dragan 100 100
 Fredrik 100 100
 Goran 100 100

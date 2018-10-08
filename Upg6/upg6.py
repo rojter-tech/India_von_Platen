@@ -34,62 +34,6 @@ class Husdjur:
     """
 
 
-def kollaHudjurslistaTextFil():
-    txtFil = "./husdjursLista.txt"
-    finnsFil = os.path.isfile(txtFil)
-    if finnsFil:
-        husdjurTXT = open(txtFil, "r")
-        husdjurSträng = husdjurTXT.readline()
-        if husdjurSträng == '':
-            husdjurTXT = open(txtFil, "w")
-            husdjurTXT.write("Exempeldjur" + ' ' + str(100) + ' ' + str(100) + '\n')
-    else:
-        husdjurTXT = open(txtFil, "w")
-        husdjurTXT.write("Exempeldjur" + ' ' + str(100) + ' ' + str(100) + '\n')
-
-
-def laggTillHusdjur(husdjursLista):
-    print("")
-    nyttDjur = input("Vad heter ditt nya djur?: ")
-    husdjursLista.append(Husdjur(nyttDjur))
-    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
-    print("")
-    print("Vi valkomnar " + nyttDjur + " till familjen, som just flyttat in!")
-    print("")
-
-
-def hämtaHusdjur():
-    """Ingen parameter, hämtar sparad lista
-    """
-
-    husdjursLista = []
-
-    husdjurTXT = open("husdjursLista.txt", "r")
-    j = '\n'
-    husdjurSträng = "nySträng"
-    while j == '\n' and husdjurSträng != '':
-        husdjurSträng = husdjurTXT.readline()
-        for i in husdjurSträng:
-            if i == '\n':
-                djurObjektLista = husdjurSträng.split(' ')
-                djur = Husdjur(djurObjektLista[0], int(djurObjektLista[1]), int(djurObjektLista[2]))
-                husdjursLista.append(djur)
-        j = i
-    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
-    return husdjursLista
-
-
-def sparaHusdjur(husdjursLista):
-    """En parameter, spara nya husdjur samt nya värden på attributen hos varje husdjur.
-    """
-    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
-    husdjurTXT = open("husdjursLista.txt", "w")
-    for dj in husdjursLista:
-        husdjurTXT.write(dj.namn + ' ' + str(dj.hunger) + ' ' + str(dj.klappBehov) + '\n')
-    print("")
-    print("Välkommen åter!")
-
-
 def mojligaPlatser():
     a = " fanns under soffan.."
     b = " hade gomt sig i garderoben.."
@@ -130,6 +74,17 @@ def hanteraHusdjur(djur):
             print("")
 
 
+def sparaHusdjur(husdjursLista):
+    """En parameter, spara nya husdjur samt nya värden på attributen hos varje husdjur.
+    """
+    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
+    husdjurTXT = open("husdjursLista.txt", "w")
+    for dj in husdjursLista:
+        husdjurTXT.write(dj.namn + ' ' + str(dj.hunger) + ' ' + str(dj.klappBehov) + '\n')
+    print("")
+    print("Välkommen åter!")
+
+
 def taBortHusdjur(husdjursLista):
     print("")
     print("Vilket djur vill du ta bort?")
@@ -142,6 +97,16 @@ def taBortHusdjur(husdjursLista):
     del husdjursLista[taBort-1]
     print("")
     print("Vad trakigt att " + djur.namn + " inte langre ar med oss! :(")
+    print("")
+
+
+def laggTillHusdjur(husdjursLista):
+    print("")
+    nyttDjur = input("Vad heter ditt nya djur?: ")
+    husdjursLista.append(Husdjur(nyttDjur))
+    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
+    print("")
+    print("Vi valkomnar " + nyttDjur + " till familjen, som just flyttat in!")
     print("")
 
 
@@ -194,6 +159,40 @@ def körPetRobo(husdjursLista):
         else:
             svar = printaHuvudMeny()
 
+
+def hämtaHusdjur():
+    """Ingen parameter, hämtar sparad lista
+    """
+
+    husdjursLista = []
+
+    husdjurTXT = open("husdjursLista.txt", "r")
+    j = '\n'
+    husdjurSträng = "nySträng"
+    while j == '\n' and husdjurSträng != '':
+        husdjurSträng = husdjurTXT.readline()
+        for i in husdjurSträng:
+            if i == '\n':
+                djurObjektLista = husdjurSträng.split(' ')
+                djur = Husdjur(djurObjektLista[0], int(djurObjektLista[1]), int(djurObjektLista[2]))
+                husdjursLista.append(djur)
+        j = i
+    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
+    return husdjursLista
+
+
+def kollaHudjurslistaTextFil():
+    txtFil = "./husdjursLista.txt"
+    finnsFil = os.path.isfile(txtFil)
+    if finnsFil:
+        husdjurTXT = open(txtFil, "r")
+        husdjurSträng = husdjurTXT.readline()
+        if husdjurSträng == '':
+            husdjurTXT = open(txtFil, "w")
+            husdjurTXT.write("Exempeldjur" + ' ' + str(100) + ' ' + str(100) + '\n')
+    else:
+        husdjurTXT = open(txtFil, "w")
+        husdjurTXT.write("Exempeldjur" + ' ' + str(100) + ' ' + str(100) + '\n')
 
 
 def main():
