@@ -18,6 +18,15 @@ class Husdjur:
     """Anropar objektet självt, returnerar ordnad sträng.
     """
 
+    def __eq__(self, other):
+        if self is other:
+            return True
+        elif type(self) != type(other):
+            return False
+        else:
+            return self.namn == other.namn
+
+
     def __lt__(self, other):
         return self.namn < other.namn
     """En parameter, sorterar namnen.
@@ -80,7 +89,7 @@ def hanteraHusdjur(djur):
 def sparaHusdjur(husdjursLista):
     """En parameter, spara nya husdjur samt nya värden på attributen hos varje husdjur.
     """
-    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
+    husdjursLista.sort()
     husdjurTXT = open("husdjursLista.txt", "w")
     for dj in husdjursLista:
         husdjurTXT.write(dj.namn + ' ' + str(dj.hunger) + ' ' + str(dj.klappBehov) + '\n')
@@ -105,7 +114,7 @@ def laggTillHusdjur(husdjursLista):
     printaMenyAvskiljare()
     nyttDjur = input("Vad heter ditt nya djur?: ")
     husdjursLista.append(Husdjur(nyttDjur))
-    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
+    husdjursLista.sort()
     print('\n' + "Vi välkomnar " + nyttDjur + " till familjen, som just flyttat in!")
 
 
@@ -175,7 +184,7 @@ def hämtaHusdjur():
                 djur = Husdjur(djurObjektLista[0], int(djurObjektLista[1]), int(djurObjektLista[2]))
                 husdjursLista.append(djur)
         j = i
-    husdjursLista.sort(key=lambda husdjur:husdjur.namn)
+    husdjursLista.sort()
     return husdjursLista
 
 

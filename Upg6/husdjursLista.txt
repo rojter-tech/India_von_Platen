@@ -1,5 +1,7 @@
+Adam 100 100
 Buster -680 10
 Dragan 50 60
+Erik 100 100
 Goran 100 100
 Molly 100 100
 Olof 100 100
