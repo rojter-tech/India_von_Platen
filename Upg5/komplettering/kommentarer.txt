@@ -1,0 +1,18 @@
+Hej India Det går att använda while och else för felhantering, men de funkar 
+inte för alla typer av felhantering. Om jag skriver "abc" när du vill ha siffra 
+så kommer koden krascha när du försöker ändra "abc" till en siffra. try och 
+except funkar så här: Koden går in i "try" precis som en if-sats, men om något 
+fel händer så kommer koden direkt hoppa till "except" delen och fortsätta där. 
+Genom att använda både while och try-except så kan du tvinga användaren försöka 
+tills de skriver in rätt. 
+
+Jag ser även att körningen av ditt program följer inte precis exemplet som är 
+givet i uppgiften. Om uppgiften var lite annorlunda så skulle det vara okej, men 
+i din uppgift så kan man inte lägga till en ny person med nya poäng. Det blir 
+svårt för mig att bestämma om uppgiften är godkänd eller inte pga detta. Om du 
+kan lägga till en ny menyval som låter mig lägga till en ny person och ny poäng 
+så borde jag kunna godkänna. 
+
+Annars så kan du ändra programmet så att den följer exemplet exakt.
+
+Du måste även kommentera funktionerna på rätt sätt med hjälp av docstrings.

@@ -1,0 +1,67 @@
+Inlämningsuppgift 5
+
+Du har fått det ärofyllda uppgiften att hålla koll på poängräkningen i den årliga 
+pilkastningstävlingen som hålls i ditt kompisgäng. Eftersom det tyvärr har hänt att deltagare 
+försökt fuska sig till poäng tidigare år, behövs ett helt säkert program, som inte går att 
+krascha även om användaren fullkomligt struntar i instruktionerna och matar in de mest konstiga 
+värden. Eftersom väderleken inte är att lita på kan det dock hända att tävlingen behöver pausas 
+lite då och då, så det är av största vikt att tidigare inmatade resultat kan läsa in från en 
+textfil och att programmet alltid skriver till samma textfil strax innan det att programmet avslutas. 
+Självklart är det ju också väldigt viktigt att kunna sortera resultaten så att man kan se vem som 
+leder och med vilken poäng.
+
+
+Instruktion:
+
+1	Börja med att tänka igenom hur du vill att ditt huvudprogrammet ska se ut. Du behöver 
+	inte skriva koden i detta skede, men skriv upp vilken algoritm du tänker dig. Vad ska 
+	hända när du startar programmet? Vad ska hända därefter? Och när ska programmet avslutas? 
+2	Skapa en textfil där du kan lagra resultaten. Fundera över vilken struktur du vill ha på 
+	filen, du kommer behöva lagra namn och poäng för varje spelare.
+3	Skriv en funktion för att läsa in resultaten från filen. Du får som sagt själv välja vilken 
+	datastruktur du vill lagra de inlästa värdena i men vi rekommenderar en lista där varje 
+	element består av en lista med namn och poäng. Du ska bara behöva läsa från filen en 
+	gång. Funktionen ska returnera de inlästa värdena.
+4	Du behöver en huvudmeny. Skriv en funktion för detta. Det man ska kunna välja att göra är 
+	att mata in nya resultat, skriva ut resultattavlan (där spelarna presenteras i ordning 
+	efter antal poäng) samt att avsluta programmet.
+5	Du behöver skriva en funktion för att läsa in en ny deltagare och hens resultat. Det har 
+	hänt att det blivit meningsskiljaktigheter när flera deltagare gått under samma namn (eller alias) 
+	så se för säkerhets skull till att nya namn inte finns i redan befintliga deltagare. För 
+	poängen får varje spelare 5 pilar att kasta, högsta poäng för varje pil är 10 poäng och det 
+	delas inte ut några minuspoäng för pilar som inte träffar tavlan. Kontrollera att poängen är 
+	rimlig. Den här funktionen riskerar att bli för lång. Vi rekommenderar att du bryter ut 
+	felhanteringen och göra en eller flera egna funktioner för att hantera den.
+6	Ytterligare en funktion behövs för skriva ut resultattavlan. Resultattavlan behöver vara 
+	sorterad efter poäng. Om du valde att följa vår rekommenation för datastruktur och har 
+	resultatet lagrat i en matris (en lista som består av listor med plats för två värden) 
+	kan man använda den här raden för att sortera den efter det värdet som finns på index 1 
+	på varje rad: 
+	resultat = sorted(resultat, key = lambda person: person[1], reverse = True)
+	
+8	Om användaren väljer att avsluta, ska du lagra alla resultat i textfilen. Skriv en funktion som gör det. 
+9	Om du inte redan fyllt i ditt huvudprogram med riktig kod är det dags att göra det nu. Tänk 
+	också på att användaren kanske inte lyckas mata in något av de korrekta menyvalen, det 
+	behöver du också hantera så programmet inte kraschar.
+
+
+Krav på lösning:
+
+-	Högst upp i filen ska det finnas en kommentar med en kort beskrivning av programmet, 
+	namn, datum och kurskod.
+-	Namnge alla variabler och funktioner enligt reglerna i kursmaterialet.
+-	Varje funktion ska ha en förklarande kommentar där det också framgår vilka inparametrar 
+	funktionen tar emot och vad den returnerar.
+-	Inga globala variabler får förekomma, använd parametrar och returvärden.
+-	Programmet ska vara uppdelat i funktioner enligt lydelsen. En funktion får inte vara 
+	längre än 30 rader, då måste den delas upp i flera funktioner.
+-	Programmet ska läsa in från en textfil en gång.
+-	Programmet ska skriva till samma textfil en gång, strax innan det att programmet avslutas.
+-	Man ska kunna mata in nya resultat (namn och poäng).
+-	Man ska kunna se en sorterad resultattavla, där spelaren med högsta poäng står högst upp.
+-	Oavsett vad användaren matar in så ska programmet inte krascha, utan användaren ska 
+	ges en ny chans att mata in ett riktigt värde. 
+- 	Ladda upp ditt program som en Python-fil och döp den enligt: förnamn_efternamn_5.py 
+	och ladda även upp den .txt fil som ditt program läser från.
+
+Notera att inlämnade uppgifter kommer att plagiatkontrolleras.

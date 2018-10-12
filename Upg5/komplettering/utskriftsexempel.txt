@@ -1,0 +1,32 @@
+Exempel på utskrift:
+
+Den årliga pilkastningstävlingen är i full gång!
+Huvudmeny
+1. Se resultat
+2. Mata in nytt resultat
+3. Spara och avsluta
+Vad väljer du? 1
+
+Just nu är ställningen följande:
+Chris 31 poäng
+Ferhat 28 poäng
+Andrèa 8 poäng
+
+Huvudmeny
+1. Se resultat
+2. Mata in nytt resultat
+3. Spara och avsluta
+Vad väljer du? 2
+
+Vad heter spelaren? Chris
+Nej det namnet är upptaget, för att undvika förvirring mata in ett annat. Vad heter spelaren? Chris D.
+Vilken poäng fick spelaren? Inga alls
+Det där var inte en siffra, vänligen försök igen. Vilken poäng fick spelaren? 0
+
+Huvudmeny
+1. Se resultat
+2. Mata in nytt resultat
+3. Spara och avsluta
+Vad väljer du? 3
+
+Resultattavlan är sparad. Hejdå!
