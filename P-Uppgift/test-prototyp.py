@@ -13,33 +13,56 @@ class Biljett:
     def __repr__(self):
         return "PLATSBILJETT" + "\n" + str(self.sträcka) + str(self.avgångstid) + "Plats " + str(self.plats) + " \n" + str(self.ägare) + str(self.gång) + "\n"
 
+
 def hanteraPlatser(biljettLista):
-    platsLista = []
-    platsRad = []
+    platsListaKolumn = []
+    platsKolumn = []
     k = 0
     for i in range(8):
         for j in range(4):
             if biljettLista[k].plats != 0:
-                platsRad.append(str(biljettLista[k].plats))
+                platsKolumn.append(str(biljettLista[k].plats))
             else:
-                platsRad.append("*")
+                platsKolumn.append("*")
             k += 1
+        if (i % 2) == 0:
+            platsListaKolumn.append(platsKolumn)
+        else:
+            platsListaKolumn.append(platsKolumn[::-1])
+        platsKolumn = []
+    return platsListaKolumn
+
+def konverteraPlatsLista(biljettLista):
+    platsListaKolumn = hanteraPlatser(biljettLista)
+    platsLista = []
+    platsRad = []
+    for i in range(4):
+        for j in range(8):
+            platsRad.append(platsListaKolumn[j][i])
         platsLista.append(platsRad)
         platsRad = []
     return platsLista
 
+def skrivUtPlatser(platsLista):
+    n = 0
+    for platsKolumn in platsLista:
+        n += 1
+        if n == 3:
+            print("     TYST AVD        |")
+            print(platsKolumn)
+        else:
+            print(platsKolumn)
+        
 
 def tågvagn(biljettLista):
     #⏊  ⏉ ⏌⎾ ⏋⎿
     """for i range(10):
         print(str(i%4))"""
-    platsLista = hanteraPlatser(biljettLista)
-    print(platsLista)
+    platsLista = konverteraPlatsLista(biljettLista)
+    skrivUtPlatser(platsLista)
 
 
-def skrivUtBiljett(biljettLista):
-    for biljett in biljettLista:
-        print(biljett)
+
 
 
 def bokaBiljett(biljett):
