@@ -11,7 +11,7 @@ class Biljett:
         self.gång = gång
         
     def __repr__(self):
-        return "PLATSBILJETT" + "\n" + str(self.sträcka) + str(self.avgångstid) + "Plats " + str(self.plats) + " \n" + str(self.ägare) + str(self.gång) + "\n"
+        return "PLATSBILJETT" + "\n" + str(self.sträcka) + "\n" + str(self.avgångstid) + "\n" + "Plats " + str(self.plats) + " \n" + str(self.ägare) + "\n" + str(self.gång) + "\n"
 
 
 def konverteraPlatsLista(platsListaKolumn):
@@ -31,10 +31,15 @@ def hanteraPlatser(biljettLista):
     k = 0
     for i in range(8):
         for j in range(4):
-            if biljettLista[k].plats != 0:
-                platsKolumn.append(str(biljettLista[k].plats))
+            if biljettLista[k].plats == 0:
+                biljett = biljettLista[k]
+                biljettNummer = biljettLista.index(biljett) + 1
+                if biljettNummer < 10:
+                    platsKolumn.append(str(biljettNummer) + " ")
+                else:
+                    platsKolumn.append(str(biljettNummer))
             else:
-                platsKolumn.append("*")
+                platsKolumn.append("* ")
             k += 1
         if (i % 2) == 0:
             platsListaKolumn.append(platsKolumn)
@@ -49,14 +54,15 @@ def skrivUtPlatser(biljettLista):
     platsLista = hanteraPlatser(biljettLista)
 
     n = 0
+    print("________________________________________________")
     for platsKolumn in platsLista:
         n += 1
         if n == 3:
-            print("     TYST AVD        |")
+            print("     TYST AVD           |")
             print(platsKolumn)
         else:
             print(platsKolumn)
-
+    print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
 def bokaBiljett(biljett):
     filnamn = "biljett_" + str(biljett.plats) + ".txt" 
@@ -69,7 +75,7 @@ def hanteraBiljett(biljett):
     print("Bokning av biljett: ")
     #biljett.sträcka = input("Vart vill du åka?: ")
     #biljett.avgångstid = input("När vill du åka?: ")
-    biljett.plats = int(input("Vilken plats vill du ha?(1-32): "))
+    biljett.plats = int(input("Vilken plats vill du ha? (1-32)\n(Platser makerade med * är redan bokade): "))
 
     gång = platser(biljett.plats)
     
@@ -133,15 +139,13 @@ def platser(plats):###############
         return "FÖNSTERPLATS"
 
 
-def meny():
+def huvudmeny():
     skapaBiljettfiler()
     biljettLista = läsaInBiljetter()
 
     print("Välkommen till SJ!\n")
     print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n\n• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
     print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n\n• Avsluta, skriv ’Q’.\n")
-
-    tågvagn(biljettLista)
     
     biljett= Biljett()
     
@@ -155,28 +159,29 @@ def meny():
             else:
                 print("Tack och välkommen åter!")
                 break
-        elif vad == "B":
+        elif vad == "B" or "b":
+            skrivUtPlatser(biljettLista)
             nyBiljett = hanteraBiljett(biljett) #nyBiljett = det som hanteraBiljett(biljett) returnerar. Det skickas vidare till bokaBiljett(nyBiljett) 
             bokaBiljett(nyBiljett)
             print(nyBiljett)
             vad = "x"
-        elif vad == "A":
+        elif vad == "A" or "a":
             print("Avboka biljett: ")
             avbokaBiljett()
             vad = "x"
-        elif vad == "S": 
+        elif vad == "S" or "s": 
             skrivUtSenasteBiljetter(biljettLista)
             vad = "x"
-        elif vad == "Q":
+        elif vad == "Q" or "q":
             print("Tack och välkommen åter!")
             break
         else:
             print("Välj antingen B, A, S eller Q.")
             vad = "x"
 
-def test():
-    skapaBiljettfiler()
-    biljettLista = läsaInBiljetter()
-    skrivUtPlatser(biljettLista)
 
-test()
+def huvudProgram():
+    huvudmeny()
+
+
+huvudProgram()
