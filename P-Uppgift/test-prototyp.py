@@ -3,13 +3,15 @@ import sys, os #Tillåter Python att anropa operativsystemrelaterad information,
 
 class Biljett:
     
-    def __init__(self, sträcka = "Stockholm - Malmo", avgångstid = "15.00", plats = 0, ägare = "Ingen vald", gång = "Ingen vald" + "\n"):
+
+    def __init__(self, sträcka = "Stockholm - Malmö", avgångstid = "15.00", plats = 0, ägare = "Ingen vald", gång = "Ingen vald" + "\n"):
         self.sträcka = sträcka
         self.avgångstid = avgångstid
         self.plats = plats
         self.ägare = ägare
         self.gång = gång
-        
+    
+
     def __repr__(self):
         return "PLATSBILJETT" + "\n" + str(self.sträcka) + "\n" + str(self.avgångstid) + "\n" + "Plats " + str(self.plats) + " \n" + str(self.ägare) + "\n" + str(self.gång) + "\n"
 
@@ -34,22 +36,27 @@ def hanteraPlatser(biljettLista):
             if biljettLista[k].plats == 0:
                 biljett = biljettLista[k]
                 biljettNummer = biljettLista.index(biljett) + 1
+
                 if biljettNummer < 10:
                     platsKolumn.append(str(biljettNummer) + " ")
                 else:
                     platsKolumn.append(str(biljettNummer))
+            
             else:
                 platsKolumn.append("* ")
+            
             k += 1
+
         if (i % 2) == 0:
             platsListaKolumn.append(platsKolumn)
         else:
             platsListaKolumn.append(platsKolumn[::-1])
+        
         platsKolumn = []
     return konverteraPlatsLista(platsListaKolumn)
 
 
-def skrivUtPlatser(biljettLista):
+def skrivUtLedigaPlatser(biljettLista):
     #⏊  ⏉ ⏌⎾ ⏋⎿
     platsLista = hanteraPlatser(biljettLista)
 
@@ -64,12 +71,15 @@ def skrivUtPlatser(biljettLista):
             print(platsKolumn)
     print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
+
 def bokaBiljett(biljett):
-    filnamn = "biljett_" + str(biljett.plats) + ".txt" 
+    dennaMapp = os.path.dirname(sys.argv[0])
+    biljettMapp = os.path.join(dennaMapp,"biljetter")
+    filnamn = os.path.join(biljettMapp,"biljett_" + str(biljett.plats) + ".txt")
     
     with open(filnamn, "w") as file:
         file.write(str(biljett))
-
+    
 
 def hanteraBiljett(biljett):
     print("Bokning av biljett: ")
@@ -115,14 +125,18 @@ def läsaInBiljetter():#Lagrar dem i biljettLista
     return biljettLista
 
 
-def avbokaBiljett():
+def avbokaBiljett(biljettLista):
+    skrivUtLedigaPlatser(biljettLista)
     plats = int(input("Vilken plats vill du avboka?(1-32): "))
 
     filnamnAvboka = "biljett_" + str(plats) + ".txt"
 
     with open(filnamnAvboka, "w") as file:
         file.write(str( Biljett() ))
+    biljettLista[plats-1] = Biljett()
     print("Plats nummer " + str(plats) + " är nu avbokad!")
+    skrivUtLedigaPlatser(biljettLista)
+    return biljettLista
 
 
 def skrivUtSenasteBiljetter(biljettLista):
@@ -159,20 +173,22 @@ def huvudmeny():
             else:
                 print("Tack och välkommen åter!")
                 break
-        elif vad == "B" or "b":
-            skrivUtPlatser(biljettLista)
+        elif vad == "B" or vad == "b":
+            skrivUtLedigaPlatser(biljettLista)
             nyBiljett = hanteraBiljett(biljett) #nyBiljett = det som hanteraBiljett(biljett) returnerar. Det skickas vidare till bokaBiljett(nyBiljett) 
             bokaBiljett(nyBiljett)
             print(nyBiljett)
+            biljettLista[nyBiljett.plats - 1] = nyBiljett
             vad = "x"
-        elif vad == "A" or "a":
+            print("Plats nummer" + str(nyBiljett.plats) + " är nu bokad")
+        elif vad == "A" or vad == "a":
             print("Avboka biljett: ")
-            avbokaBiljett()
+            biljettLista = avbokaBiljett(biljettLista)
             vad = "x"
-        elif vad == "S" or "s": 
+        elif vad == "S" or vad == "s": 
             skrivUtSenasteBiljetter(biljettLista)
             vad = "x"
-        elif vad == "Q" or "q":
+        elif vad == "Q" or vad == "q":
             print("Tack och välkommen åter!")
             break
         else:
