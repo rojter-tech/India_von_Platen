@@ -14,6 +14,17 @@ class Biljett:
         return "PLATSBILJETT" + "\n" + str(self.sträcka) + str(self.avgångstid) + "Plats " + str(self.plats) + " \n" + str(self.ägare) + str(self.gång) + "\n"
 
 
+def konverteraPlatsLista(platsListaKolumn):
+    platsLista = []
+    platsRad = []
+    for i in range(4):
+        for j in range(8):
+            platsRad.append(platsListaKolumn[j][i])
+        platsLista.append(platsRad)
+        platsRad = []
+    return platsLista
+
+
 def hanteraPlatser(biljettLista):
     platsListaKolumn = []
     platsKolumn = []
@@ -30,20 +41,13 @@ def hanteraPlatser(biljettLista):
         else:
             platsListaKolumn.append(platsKolumn[::-1])
         platsKolumn = []
-    return platsListaKolumn
+    return konverteraPlatsLista(platsListaKolumn)
 
-def konverteraPlatsLista(biljettLista):
-    platsListaKolumn = hanteraPlatser(biljettLista)
-    platsLista = []
-    platsRad = []
-    for i in range(4):
-        for j in range(8):
-            platsRad.append(platsListaKolumn[j][i])
-        platsLista.append(platsRad)
-        platsRad = []
-    return platsLista
 
-def skrivUtPlatser(platsLista):
+def skrivUtPlatser(biljettLista):
+    #⏊  ⏉ ⏌⎾ ⏋⎿
+    platsLista = hanteraPlatser(biljettLista)
+
     n = 0
     for platsKolumn in platsLista:
         n += 1
@@ -52,17 +56,6 @@ def skrivUtPlatser(platsLista):
             print(platsKolumn)
         else:
             print(platsKolumn)
-        
-
-def tågvagn(biljettLista):
-    #⏊  ⏉ ⏌⎾ ⏋⎿
-    """for i range(10):
-        print(str(i%4))"""
-    platsLista = konverteraPlatsLista(biljettLista)
-    skrivUtPlatser(platsLista)
-
-
-
 
 
 def bokaBiljett(biljett):
@@ -184,6 +177,6 @@ def meny():
 def test():
     skapaBiljettfiler()
     biljettLista = läsaInBiljetter()
-    tågvagn(biljettLista)
+    skrivUtPlatser(biljettLista)
 
 test()
