@@ -161,8 +161,6 @@ def huvudmeny():
     print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n\n• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
     print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n\n• Avsluta, skriv ’Q’.\n")
     
-    biljett= Biljett()
-    
     vad = str(input("Vad vill du göra?: "))
     
     while True: #Fixa felhantering
@@ -175,12 +173,12 @@ def huvudmeny():
                 break
         elif vad == "B" or vad == "b":
             skrivUtLedigaPlatser(biljettLista)
-            nyBiljett = hanteraBiljett(biljett) #nyBiljett = det som hanteraBiljett(biljett) returnerar. Det skickas vidare till bokaBiljett(nyBiljett) 
+            nyBiljett = hanteraBiljett(Biljett()) #nyBiljett = det som hanteraBiljett(biljett) returnerar. Det skickas vidare till bokaBiljett(nyBiljett) 
             bokaBiljett(nyBiljett)
             print(nyBiljett)
             biljettLista[nyBiljett.plats - 1] = nyBiljett
             vad = "x"
-            print("Plats nummer" + str(nyBiljett.plats) + " är nu bokad")
+            print("Plats nummer " + str(nyBiljett.plats) + " är nu bokad")
         elif vad == "A" or vad == "a":
             print("Avboka biljett: ")
             biljettLista = avbokaBiljett(biljettLista)
