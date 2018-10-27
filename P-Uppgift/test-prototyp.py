@@ -180,11 +180,18 @@ def skrivUtAnvändarAlternativ():
 
 
 def menyLoop():
-    fortsätt = input(str("Vill du göra något mer? (ja/nej): "))
-    if fortsätt == "Ja" or fortsätt == "ja":
+    fortsätt = input("Vill du göra något mer? (j/n): ")
+    if fortsätt[0] == "J" or fortsätt[0] == "j":
+        print("")
         vad = skrivUtAnvändarAlternativ()
-    else:
+    elif fortsätt[0] == "N" or fortsätt[0] == "n":
+        print("")
         vad = "Q"
+    else:
+        print("Du måste svara antingen 'j(ja)' eller 'n(nej)'.")
+        input("Tryck Enter för att fortsätta: ")
+        print("")
+        vad = "x"
     return vad
 
 
@@ -213,7 +220,7 @@ def huvudMeny(biljettLista):
 
 def underMenyFelInmatning():
     print("Du måste välja antingen B, A, S eller Q.")
-    input(str("Tryck Enter för att fortsätta: "))
+    input("Tryck Enter för att fortsätta: ")
 
 
 def underMenyBokning(biljettLista):
