@@ -1,7 +1,6 @@
 PLATSBILJETT
 Stockholm - Malmö
 15.00
-Plats 0 
-Ingen vald
-Ingen vald
-
+Plats 3 
+Daniel
+MITTGÅNG

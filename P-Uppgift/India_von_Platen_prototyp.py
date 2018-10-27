@@ -26,7 +26,11 @@ class Biljett:
         """Skriver ut valmenyn.
    Inparameter: self
    Returnerar: uppbyggnad för hur utskriften av en biljett ska se ut. """
-        return "PLATSBILJETT" + "\n" + str(self.sträcka) + "\n" + str(self.avgångstid) + "\n" + "Plats " + str(self.plats) + " \n" + str(self.ägare) + "\n" + str(self.gång) + "\n"
+        delsträng1 = "PLATSBILJETT" + "\n" + str(self.sträcka) + "\n"
+        delsträng2 = str(self.avgångstid) + "\n" + "Plats " + str(self.plats) + " \n" 
+        delsträng3 = str(self.ägare) + "\n" + str(self.gång) + "\n"
+        bijettUtskrift = delsträng1 + delsträng2 + delsträng3
+        return bijettUtskrift
 
 
 def konverteraPlatsLista(platsListaKolumn):
