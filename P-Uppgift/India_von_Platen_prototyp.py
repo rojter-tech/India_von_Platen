@@ -1,5 +1,5 @@
 #India von Platen
-#Påbärjades 11/10-2018
+#Påbörjades 11/10-2018
 #Kurs i programmeringsteknik
 #DD100N
 #Uppgift 127- Platsbokning på SJ
