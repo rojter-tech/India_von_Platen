@@ -165,7 +165,7 @@ def huvudmeny():
     
     while True: #Fixa felhantering
         if vad == "x":
-            fortsätt = input(str("Vill du göra något mer?: "))
+            fortsätt = input(str("Vill du göra något mer? (ja/nej): "))
             if fortsätt == "Ja" or fortsätt == "ja":
                 vad = input(str("Vad vill du göra?(A, B, S eller Q): "))
             else:
