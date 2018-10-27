@@ -108,7 +108,7 @@ def hanteraBiljett(biljett):
     biljett.ägare = input("Vad heter du?: ")
     biljett.gång = gång
 
-    return biljett 
+    return biljett
 
 
 def skapaBiljettfiler():
@@ -171,44 +171,60 @@ def platser(plats):
         return "FÖNSTERPLATS"
 
 
-def skrivUtAnvändaralternativ():
+def skrivUtAnvändarAlternativ():
     print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n\n• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
     print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n\n• Avsluta, skriv ’Q’.\n")
     vad = str(input("Vad vill du göra?: "))
     return vad
 
+def menyLoop():
+    fortsätt = input(str("Vill du göra något mer? (ja/nej): "))
+    if fortsätt == "Ja" or fortsätt == "ja":
+        vad = skrivUtAnvändarAlternativ()
+    else:
+        vad = "Q"
+    return vad
 
-def huvudmeny(biljettLista):
-    vad = skrivUtAnvändaralternativ()
+def huvudMeny(biljettLista):
+    vad = skrivUtAnvändarAlternativ()
     
     while True: #Fixa felhantering
-        if vad == "x":
-            fortsätt = input(str("Vill du göra något mer? (ja/nej): "))
-            if fortsätt == "Ja" or fortsätt == "ja":
-                vad = skrivUtAnvändaralternativ()
-            else:
-                print("Tack och välkommen åter!")
-                break
-        elif vad == "B" or vad == "b":
-            skrivUtLedigaPlatser(biljettLista)
-            nyBiljett = hanteraBiljett(Biljett()) #nyBiljett = det som hanteraBiljett(biljett) returnerar. Det skickas vidare till bokaBiljett(nyBiljett) 
-            bokaBiljett(nyBiljett)
-            biljettLista[nyBiljett.plats - 1] = nyBiljett #Uppdaterar biljettstatus i biljettLista
+        if vad[0] == "x":
+            vad = menyLoop()
+        elif vad[0] == "B" or vad[0] == "b":
+            biljettLista = underMenyBokning(biljettLista)
             vad = "x"
-            
-        elif vad == "A" or vad == "a":
-            print("Avboka biljett: ")
-            biljettLista = avbokaBiljett(biljettLista)
+        elif vad[0] == "A" or vad[0] == "a":
+            biljettLista = underMenyAvbokning(biljettLista)
             vad = "x"
-        elif vad == "S" or vad == "s": 
+        elif vad[0] == "S" or vad[0] == "s": 
             skrivUtSenasteBiljetter(biljettLista)
             vad = "x"
-        elif vad == "Q" or vad == "q":
+        elif vad[0] == "Q" or vad[0] == "q":
             print("Tack och välkommen åter!")
             break
         else:
-            print("Välj antingen B, A, S eller Q.")
+            underMenyFelInmatning()
             vad = "x"
+
+
+def underMenyFelInmatning():
+    print("Du måste välja antingen B, A, S eller Q.")
+    input(str("Tryck Enter för att fortsätta: "))
+
+
+def underMenyAvbokning(biljettLista):
+    print("Avboka biljett: ")
+    biljettLista = avbokaBiljett(biljettLista)
+    return biljettLista
+
+
+def underMenyBokning(biljettLista):
+    skrivUtLedigaPlatser(biljettLista)
+    nyBiljett = hanteraBiljett(Biljett()) #nyBiljett = det som hanteraBiljett(biljett) returnerar. Det skickas vidare till bokaBiljett(nyBiljett) 
+    bokaBiljett(nyBiljett)
+    biljettLista[nyBiljett.plats - 1] = nyBiljett #Uppdaterar biljettstatus i biljettLista
+    return biljettLista
 
 
 def huvudProgram():
@@ -216,7 +232,7 @@ def huvudProgram():
     skapaBiljettfiler()
     biljettLista = läsaInBiljetter()
 
-    huvudmeny(biljettLista)
+    huvudMeny(biljettLista)
 
 
 huvudProgram()
