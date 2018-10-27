@@ -47,20 +47,24 @@ def hämtaPlatsStatus(biljett,biljettNummer):
     return platsstatus
 
 
-def hanteraPlatser(biljettLista):
+def hämtaPlatsLista(biljettLista):
     platsLista = []
     platsSekvens = 4 * [None]
-    k = 0
+    biljettIndex = 0
     for i in range(8):
         for j in range(4):
-            biljett = biljettLista[k]
-            biljettNummer = biljettLista.index(biljett) + 1
+            biljett = biljettLista[biljettIndex]
+            biljettNummer = biljettIndex + 1
             platsSekvens[j] = hämtaPlatsStatus(biljett,biljettNummer)
-            k += 1
+            biljettIndex += 1
         
         platsLista = laggTillPlatsSekvens(platsLista,platsSekvens,i)
         platsSekvens = 4 * [None]
-    
+    return platsLista
+
+
+def hanteraPlatser(biljettLista):
+    platsLista = hämtaPlatsLista(biljettLista)
     rättvändPlatslista = konverteraPlatsLista(platsLista)
     return rättvändPlatslista # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
 
