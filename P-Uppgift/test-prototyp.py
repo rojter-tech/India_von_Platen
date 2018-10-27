@@ -27,33 +27,40 @@ def konverteraPlatsLista(platsListaKolumn):
     return platsLista
 
 
+def läggTillPlatsStatus(biljett,biljettNummer,platsSekvens):
+    if biljett.plats == 0:
+        if biljettNummer < 10:
+            platsSekvens.append(str(biljettNummer) + " ")
+        else:
+            platsSekvens.append(str(biljettNummer))
+        
+    else:
+        platsSekvens.append("* ")
+    return platsSekvens
+
+
+def laggTillPlatsSekvens(platsLista,platsSekvens,i):
+    if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
+        platsLista.append(platsSekvens)
+    else:
+        platsLista.append(platsSekvens[::-1]) # Annars (om i är udda) lagras platserna i omvänd ordning.
+    return platsLista
+
+
 def hanteraPlatser(biljettLista):
-    platsListaKolumn = []
-    platsKolumn = []
+    platsLista = []
+    platsSekvens = []
     k = 0
     for i in range(8):
         for j in range(4):
-            if biljettLista[k].plats == 0:
-                biljett = biljettLista[k]
-                biljettNummer = biljettLista.index(biljett) + 1
-
-                if biljettNummer < 10:
-                    platsKolumn.append(str(biljettNummer) + " ")
-                else:
-                    platsKolumn.append(str(biljettNummer))
-            
-            else:
-                platsKolumn.append("* ")
-            
+            biljett = biljettLista[k]
+            biljettNummer = biljettLista.index(biljett) + 1
+            platsSekvens = läggTillPlatsStatus(biljett,biljettNummer,platsSekvens)
             k += 1
-
-        if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
-            platsListaKolumn.append(platsKolumn)
-        else:
-            platsListaKolumn.append(platsKolumn[::-1]) # Annars (om i är udda) lagras platserna i omvänd ordning.
         
-        platsKolumn = []
-    return konverteraPlatsLista(platsListaKolumn) # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
+        platsLista = laggTillPlatsSekvens(platsLista,platsSekvens,i)
+        platsSekvens = []
+    return konverteraPlatsLista(platsLista) # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
 
 
 def skrivUtLedigaPlatser(biljettLista):
@@ -131,9 +138,10 @@ def läsaInBiljetter():#Lagrar dem i biljettLista
 
 def avbokaBiljett(biljettLista):
     skrivUtLedigaPlatser(biljettLista)
+    dennaMapp = os.path.dirname(sys.argv[0])
+    biljettMapp = os.path.join(dennaMapp,"biljetter")
     plats = int(input("Vilken plats vill du avboka?(1-32): "))
-    filnamn = "biljett_" + str(plats) + ".txt"
-
+    filnamn = os.path.join(biljettMapp,"biljett_" + str(plats) + ".txt")
     with open(filnamn, "w") as file:
         file.write(str( Biljett() ))
     
