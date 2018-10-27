@@ -27,14 +27,6 @@ def konverteraPlatsLista(platsListaKolumn):
     return platsLista
 
 
-def laggTillPlatsSekvens(platsLista,platsSekvens,i):
-    if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
-        platsLista.append(platsSekvens)
-    else:
-        platsLista.append(platsSekvens[::-1]) # Annars (om i är udda) lagras platserna i omvänd ordning.
-    return platsLista
-
-
 def hämtaPlatsStatus(biljett,biljettNummer):
     if biljett.plats == 0:
         if biljettNummer < 10:
@@ -47,8 +39,15 @@ def hämtaPlatsStatus(biljett,biljettNummer):
     return platsstatus
 
 
+def hämtaPlatsSekvens(platsSekvens,i):
+    if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
+        return platsSekvens
+    else:
+        return platsSekvens[::-1] # Annars (om i är udda) lagras platserna i omvänd ordning.
+
+
 def hämtaPlatsLista(biljettLista):
-    platsLista = []
+    platsLista = 8 * [None]
     platsSekvens = 4 * [None]
     biljettIndex = 0
     for i in range(8):
@@ -58,7 +57,7 @@ def hämtaPlatsLista(biljettLista):
             platsSekvens[j] = hämtaPlatsStatus(biljett,biljettNummer)
             biljettIndex += 1
         
-        platsLista = laggTillPlatsSekvens(platsLista,platsSekvens,i)
+        platsLista[i] = hämtaPlatsSekvens(platsSekvens,i)
         platsSekvens = 4 * [None]
     return platsLista
 
