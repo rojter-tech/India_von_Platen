@@ -265,8 +265,7 @@ def menyLoop():
                 return vad
             elif fortsätt[0] == "N" or fortsätt[0] == "n":
                 print("")
-                vad = "Q"
-                return vad
+                return "Q"
             else:
                 fortsätt = ""
 
