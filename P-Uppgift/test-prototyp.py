@@ -142,6 +142,7 @@ def läsaInBiljetter():#Lagrar dem i biljettLista
 
 
 def avbokaBiljett(biljettLista):
+    print("Avboka biljett: ")
     skrivUtLedigaPlatser(biljettLista)
     dennaMapp = os.path.dirname(sys.argv[0])
     biljettMapp = os.path.join(dennaMapp,"biljetter")
@@ -177,6 +178,7 @@ def skrivUtAnvändarAlternativ():
     vad = str(input("Vad vill du göra?: "))
     return vad
 
+
 def menyLoop():
     fortsätt = input(str("Vill du göra något mer? (ja/nej): "))
     if fortsätt == "Ja" or fortsätt == "ja":
@@ -184,6 +186,7 @@ def menyLoop():
     else:
         vad = "Q"
     return vad
+
 
 def huvudMeny(biljettLista):
     vad = skrivUtAnvändarAlternativ()
@@ -195,7 +198,7 @@ def huvudMeny(biljettLista):
             biljettLista = underMenyBokning(biljettLista)
             vad = "x"
         elif vad[0] == "A" or vad[0] == "a":
-            biljettLista = underMenyAvbokning(biljettLista)
+            biljettLista = avbokaBiljett(biljettLista)
             vad = "x"
         elif vad[0] == "S" or vad[0] == "s": 
             skrivUtSenasteBiljetter(biljettLista)
@@ -213,12 +216,6 @@ def underMenyFelInmatning():
     input(str("Tryck Enter för att fortsätta: "))
 
 
-def underMenyAvbokning(biljettLista):
-    print("Avboka biljett: ")
-    biljettLista = avbokaBiljett(biljettLista)
-    return biljettLista
-
-
 def underMenyBokning(biljettLista):
     skrivUtLedigaPlatser(biljettLista)
     nyBiljett = hanteraBiljett(Biljett()) #nyBiljett = det som hanteraBiljett(biljett) returnerar. Det skickas vidare till bokaBiljett(nyBiljett) 
@@ -228,10 +225,9 @@ def underMenyBokning(biljettLista):
 
 
 def huvudProgram():
-    print("Välkommen till SJ!\n")
     skapaBiljettfiler()
     biljettLista = läsaInBiljetter()
-
+    print("Välkommen till SJ!\n")
     huvudMeny(biljettLista)
 
 
