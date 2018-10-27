@@ -27,6 +27,14 @@ def konverteraPlatsLista(platsListaKolumn):
     return platsLista
 
 
+def laggTillPlatsSekvens(platsLista,platsSekvens,i):
+    if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
+        platsLista.append(platsSekvens)
+    else:
+        platsLista.append(platsSekvens[::-1]) # Annars (om i är udda) lagras platserna i omvänd ordning.
+    return platsLista
+
+
 def läggTillPlatsStatus(biljett,biljettNummer,platsSekvens):
     if biljett.plats == 0:
         if biljettNummer < 10:
@@ -37,14 +45,6 @@ def läggTillPlatsStatus(biljett,biljettNummer,platsSekvens):
     else:
         platsSekvens.append("* ")
     return platsSekvens
-
-
-def laggTillPlatsSekvens(platsLista,platsSekvens,i):
-    if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
-        platsLista.append(platsSekvens)
-    else:
-        platsLista.append(platsSekvens[::-1]) # Annars (om i är udda) lagras platserna i omvänd ordning.
-    return platsLista
 
 
 def hanteraPlatser(biljettLista):
@@ -60,7 +60,9 @@ def hanteraPlatser(biljettLista):
         
         platsLista = laggTillPlatsSekvens(platsLista,platsSekvens,i)
         platsSekvens = []
-    return konverteraPlatsLista(platsLista) # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
+    
+    rättvändPlatslista = konverteraPlatsLista(platsLista)
+    return rättvändPlatslista # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
 
 
 def skrivUtLedigaPlatser(biljettLista):
