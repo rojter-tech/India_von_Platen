@@ -19,7 +19,7 @@ class Biljett:
 def konverteraPlatsLista(platsListaKolumn):
     platsLista = []
     platsRad = []
-    for i in range(4):
+    for i in range(4): #Kör en forloop genom samtliga 32 biljetter fast i omvänd ordning.
         for j in range(8):
             platsRad.append(platsListaKolumn[j][i])
         platsLista.append(platsRad)
@@ -47,18 +47,18 @@ def hanteraPlatser(biljettLista):
             
             k += 1
 
-        if (i % 2) == 0:
+        if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
             platsListaKolumn.append(platsKolumn)
         else:
-            platsListaKolumn.append(platsKolumn[::-1])
+            platsListaKolumn.append(platsKolumn[::-1]) # Annars (om i är udda) lagras platserna i omvänd ordning.
         
         platsKolumn = []
-    return konverteraPlatsLista(platsListaKolumn)
+    return konverteraPlatsLista(platsListaKolumn) # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
 
 
 def skrivUtLedigaPlatser(biljettLista):
     #⏊  ⏉ ⏌⎾ ⏋⎿
-    platsLista = hanteraPlatser(biljettLista)
+    platsLista = hanteraPlatser(biljettLista) # Hämtar den rättvända listan.
 
     n = 0
     print("________________________________________________")
@@ -73,12 +73,16 @@ def skrivUtLedigaPlatser(biljettLista):
 
 
 def bokaBiljett(biljett):
-    dennaMapp = os.path.dirname(sys.argv[0])
-    biljettMapp = os.path.join(dennaMapp,"biljetter")
-    filnamn = os.path.join(biljettMapp,"biljett_" + str(biljett.plats) + ".txt")
+    dennaMapp = os.path.dirname(sys.argv[0]) # Argumentet sys.argv[0] anger i vilken mapp python-scriptet ligger.
+    biljettMapp = os.path.join(dennaMapp,"biljetter") # Anger sökvägen till mappen "biljetter" som finns i dennaMapp.
+    filnamn = os.path.join(biljettMapp,"biljett_" + str(biljett.plats) + ".txt") # Anger sökvägen till själva biljetten.
     
     with open(filnamn, "w") as file:
         file.write(str(biljett))
+
+    print("Plats nummer " + str(biljett.plats) + " är nu bokad!")
+    print("\nHär är din biljett:\n")
+    print(biljett)
     
 
 def hanteraBiljett(biljett):
@@ -128,11 +132,11 @@ def läsaInBiljetter():#Lagrar dem i biljettLista
 def avbokaBiljett(biljettLista):
     skrivUtLedigaPlatser(biljettLista)
     plats = int(input("Vilken plats vill du avboka?(1-32): "))
+    filnamn = "biljett_" + str(plats) + ".txt"
 
-    filnamnAvboka = "biljett_" + str(plats) + ".txt"
-
-    with open(filnamnAvboka, "w") as file:
+    with open(filnamn, "w") as file:
         file.write(str( Biljett() ))
+    
     biljettLista[plats-1] = Biljett()
     print("Plats nummer " + str(plats) + " är nu avbokad!")
     skrivUtLedigaPlatser(biljettLista)
@@ -145,11 +149,12 @@ def skrivUtSenasteBiljetter(biljettLista):
             print(str(biljettLista[i]))
 
 
-def platser(plats):###############
-    if plats == 2 or plats == 3 or plats == 7 or plats == 6 or plats == 10 or plats == 11 or plats == 15 or plats == 14 or plats == 18 or plats == 19 or plats == 23 or plats == 22 or plats == 26 or plats == 27 or plats == 31 or plats == 30:
+def platser(plats):
+    if plats == 2 or plats == 3 or plats == 6 or plats == 7 or plats == 10 or plats == 11 or plats == 14 or plats == 15:
         return "MITTGÅNG"
-
-    if plats == 1 or plats == 4 or plats == 8 or plats == 5 or plats == 9 or plats == 12 or plats == 16 or plats == 13 or plats == 17 or plats == 20 or plats == 24 or plats == 21 or plats == 25 or plats == 28 or plats == 32 or plats == 29:
+    elif plats == 18 or plats == 19 or plats == 22 or plats == 23 or plats == 26 or plats == 27 or plats == 30 or plats == 31:
+        return "MITTGÅNG"
+    else:
         return "FÖNSTERPLATS"
 
 
@@ -175,10 +180,9 @@ def huvudmeny():
             skrivUtLedigaPlatser(biljettLista)
             nyBiljett = hanteraBiljett(Biljett()) #nyBiljett = det som hanteraBiljett(biljett) returnerar. Det skickas vidare till bokaBiljett(nyBiljett) 
             bokaBiljett(nyBiljett)
-            print(nyBiljett)
-            biljettLista[nyBiljett.plats - 1] = nyBiljett
+            biljettLista[nyBiljett.plats - 1] = nyBiljett #Uppdaterar biljettstatus i biljettLista
             vad = "x"
-            print("Plats nummer " + str(nyBiljett.plats) + " är nu bokad")
+            
         elif vad == "A" or vad == "a":
             print("Avboka biljett: ")
             biljettLista = avbokaBiljett(biljettLista)
