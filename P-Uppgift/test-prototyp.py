@@ -35,31 +35,31 @@ def laggTillPlatsSekvens(platsLista,platsSekvens,i):
     return platsLista
 
 
-def läggTillPlatsStatus(biljett,biljettNummer,platsSekvens):
+def hämtaPlatsStatus(biljett,biljettNummer):
     if biljett.plats == 0:
         if biljettNummer < 10:
-            platsSekvens.append(str(biljettNummer) + " ")
+            platsstatus = str(biljettNummer) + " "
         else:
-            platsSekvens.append(str(biljettNummer))
+            platsstatus = str(biljettNummer)
         
     else:
-        platsSekvens.append("* ")
-    return platsSekvens
+        platsstatus = "* "
+    return platsstatus
 
 
 def hanteraPlatser(biljettLista):
     platsLista = []
-    platsSekvens = []
+    platsSekvens = 4 * [None]
     k = 0
     for i in range(8):
         for j in range(4):
             biljett = biljettLista[k]
             biljettNummer = biljettLista.index(biljett) + 1
-            platsSekvens = läggTillPlatsStatus(biljett,biljettNummer,platsSekvens)
+            platsSekvens[j] = hämtaPlatsStatus(biljett,biljettNummer)
             k += 1
         
         platsLista = laggTillPlatsSekvens(platsLista,platsSekvens,i)
-        platsSekvens = []
+        platsSekvens = 4 * [None]
     
     rättvändPlatslista = konverteraPlatsLista(platsLista)
     return rättvändPlatslista # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
