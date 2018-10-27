@@ -83,7 +83,7 @@ def bokaBiljett(biljett):
     print("Plats nummer " + str(biljett.plats) + " är nu bokad!")
     print("\nHär är din biljett:\n")
     print(biljett)
-    
+
 
 def hanteraBiljett(biljett):
     print("Bokning av biljett: ")
@@ -158,21 +158,21 @@ def platser(plats):
         return "FÖNSTERPLATS"
 
 
-def huvudmeny():
-    skapaBiljettfiler()
-    biljettLista = läsaInBiljetter()
-
-    print("Välkommen till SJ!\n")
+def skrivUtAnvändaralternativ():
     print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n\n• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
     print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n\n• Avsluta, skriv ’Q’.\n")
-    
     vad = str(input("Vad vill du göra?: "))
+    return vad
+
+
+def huvudmeny(biljettLista):
+    vad = skrivUtAnvändaralternativ()
     
     while True: #Fixa felhantering
         if vad == "x":
             fortsätt = input(str("Vill du göra något mer? (ja/nej): "))
             if fortsätt == "Ja" or fortsätt == "ja":
-                vad = input(str("Vad vill du göra?(A, B, S eller Q): "))
+                vad = skrivUtAnvändaralternativ()
             else:
                 print("Tack och välkommen åter!")
                 break
@@ -199,7 +199,11 @@ def huvudmeny():
 
 
 def huvudProgram():
-    huvudmeny()
+    print("Välkommen till SJ!\n")
+    skapaBiljettfiler()
+    biljettLista = läsaInBiljetter()
+
+    huvudmeny(biljettLista)
 
 
 huvudProgram()
