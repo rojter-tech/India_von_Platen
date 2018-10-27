@@ -43,38 +43,50 @@ def konverteraPlatsLista(platsListaKolumn):
     return platsLista
 
 
+def hämtaPlatsStatus(biljett,biljettNummer):
+    if biljett.plats == 0:
+        if biljettNummer < 10:
+            platsstatus = str(biljettNummer) + " "
+        else:
+            platsstatus = str(biljettNummer)
+        
+    else:
+        platsstatus = "* "
+    return platsstatus
+
+
+def hämtaPlatsSekvens(platsSekvens,i):
+    if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
+        return platsSekvens
+    else:
+        return platsSekvens[::-1] # Annars (om i är udda) lagras platserna i omvänd ordning.
+
+
+def hämtaPlatsLista(biljettLista):
+    platsLista = 8 * [None]
+    platsSekvens = 4 * [None]
+    biljettIndex = 0
+    for i in range(8):
+        for j in range(4):
+            biljett = biljettLista[biljettIndex]
+            biljettNummer = biljettIndex + 1
+            platsSekvens[j] = hämtaPlatsStatus(biljett,biljettNummer)
+            biljettIndex += 1
+        
+        platsLista[i] = hämtaPlatsSekvens(platsSekvens,i)
+        platsSekvens = 4 * [None]
+    return platsLista
+
+
 def hanteraPlatser(biljettLista):
     """Tar in en lista med alla existerande biljettobjekt
         och hämtar information om platsnummer som i sin tur
         lagras i en ny lista. 
        Inparameter: en lista med objekt av typen Biljett()- biljettLista
         Returnerar: en lista med heltal- konverteraPlatsLista(platsListaKolumn)"""
-    platsListaKolumn = []
-    platsKolumn = []
-    k = 0
-    for i in range(8):
-        for j in range(4):
-            if biljettLista[k].plats == 0:
-                biljett = biljettLista[k]
-                biljettNummer = biljettLista.index(biljett) + 1
-
-                if biljettNummer < 10:
-                    platsKolumn.append(str(biljettNummer) + " ")
-                else:
-                    platsKolumn.append(str(biljettNummer))
-            
-            else:
-                platsKolumn.append("* ")
-            
-            k += 1
-
-        if (i % 2) == 0:
-            platsListaKolumn.append(platsKolumn)
-        else:
-            platsListaKolumn.append(platsKolumn[::-1])
-        
-        platsKolumn = []
-    return konverteraPlatsLista(platsListaKolumn)
+    platsLista = hämtaPlatsLista(biljettLista)
+    rättvändPlatslista = konverteraPlatsLista(platsLista)
+    return rättvändPlatslista # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
 
 
 def skrivUtLedigaPlatser(biljettLista):
@@ -96,11 +108,11 @@ def skrivUtLedigaPlatser(biljettLista):
     print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
 
-def bokaBiljett(biljett):
+def bokaBiljett():
     """Skriver ut valmenyn
    Inparameter: ett objekt- biljett
    Returnerar:variabel som innehåller information om biljetten- nyBiljett """
-    nyBiljett = hanteraBiljett(biljett) 
+    nyBiljett = hanteraBiljett(Biljett())
     sparaBiljett(nyBiljett)
 
     return nyBiljett
@@ -116,6 +128,10 @@ def sparaBiljett(biljett):
     
     with open(filnamn, "w") as file:
         file.write(str(biljett))
+    
+    print("Plats nummer " + str(biljett.plats) + " är nu bokad!")
+    print("\nHär är din biljett:\n")
+    print(biljett)
     
 
 def hanteraBiljett(biljett):
@@ -172,18 +188,18 @@ def läsaInBiljetter():
     return biljettLista
 
 
-def avbokaBiljett(biljettLista, plats):
+def avbokaBiljett(biljettLista,plats):
     """Skriver över filer som innehåller de biljetter som ska avbokas.
    Inparameter: en lista med objekt och ett atribut- biljettLista och plats.
    Returnerar:  en lista med objekt- biljettLista"""
-    dennaMapp = os.path.dirname(sys.argv[0])
-    biljettMapp = os.path.join(dennaMapp, "biljetter")
+    print("Avboka biljett: ")
     skrivUtLedigaPlatser(biljettLista)
-
-    filNamnAvboka = os.path.join(biljettMapp, "biljett_" + str(plats) + ".txt") 
-
-    with open(filNamnAvboka, "w") as file:
+    dennaMapp = os.path.dirname(sys.argv[0])
+    biljettMapp = os.path.join(dennaMapp,"biljetter")
+    filnamn = os.path.join(biljettMapp,"biljett_" + str(plats) + ".txt")
+    with open(filnamn, "w") as file:
         file.write(str( Biljett() ))
+    
     biljettLista[plats-1] = Biljett()
     print("Plats nummer " + str(plats) + " är nu avbokad!")
     skrivUtLedigaPlatser(biljettLista)
@@ -203,67 +219,107 @@ def platser(plats):
     """Hanterar de strängar som tillhör värdena på plats i biljettobjektet.
    Inparameter: ett attribut- plats
    Returnerar: Två olika strängar - MITTGÅNG eller FÖNSTERPLATS """
-    if plats == 2 or plats == 3 or plats == 7 or plats == 6 or plats == 10 or plats == 11 or plats == 15 or plats == 14 or plats == 18 or plats == 19 or plats == 23 or plats == 22 or plats == 26 or plats == 27 or plats == 31 or plats == 30:
+    if plats == 2 or plats == 3 or plats == 6 or plats == 7 or plats == 10 or plats == 11 or plats == 14 or plats == 15:
         return "MITTGÅNG"
-
-    if plats == 1 or plats == 4 or plats == 8 or plats == 5 or plats == 9 or plats == 12 or plats == 16 or plats == 13 or plats == 17 or plats == 20 or plats == 24 or plats == 21 or plats == 25 or plats == 28 or plats == 32 or plats == 29:
+    elif plats == 18 or plats == 19 or plats == 22 or plats == 23 or plats == 26 or plats == 27 or plats == 30 or plats == 31:
+        return "MITTGÅNG"
+    else:
         return "FÖNSTERPLATS"
 
 
-def huvudMeny():
+def skrivUtAnvändarAlternativ():
+    print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n\n• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
+    print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n\n• Avsluta, skriv ’Q’.\n")
+    vad = str(input("Vad vill du göra?: "))
+    return vad
+
+
+def menyLoop():
+    fortsätt = input("Vill du göra något mer? (j/n): ")
+    if fortsätt[0] == "J" or fortsätt[0] == "j":
+        print("")
+        vad = skrivUtAnvändarAlternativ()
+    elif fortsätt[0] == "N" or fortsätt[0] == "n":
+        print("")
+        vad = "Q"
+    else:
+        print("Du måste svara antingen 'j(ja)' eller 'n(nej)'.")
+        input("Tryck Enter för att fortsätta: ")
+        print("")
+        vad = "x"
+    return vad
+
+
+def huvudMeny(biljettLista):
     """Skriver ut valmenyn samt anropar resterande funktioner i programmet
    Inparameter: ingen
    Returnerar: inget"""
-    skapaBiljettfiler()
-    biljettLista = läsaInBiljetter()
 
-    print("Välkommen till SJ!\n")
-    print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n\n• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
-    print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n\n• Avsluta, skriv ’Q’.\n")
+    vad = skrivUtAnvändarAlternativ()
     
-    vad = str(input("Vad vill du göra?: "))
-    
-    while True: 
-        if vad == "x":
-            fortsätt = input(str("Vill du göra något mer?: "))
-            if fortsätt == "Ja" or fortsätt == "ja":
-                vad = input(str("Vad vill du göra?(A, B, S eller Q): "))
-            else:
-                print("Tack och välkommen åter!")
-                break
+    while True: #Fixa felhantering
+        if vad[0] == "x":
+            vad = menyLoop()
         elif vad[0] == "B" or vad[0] == "b":
-            skrivUtLedigaPlatser(biljettLista)
-            vadLista = vad.split(' ')
-            antalBiljetter = int(vadLista[1])
-            for i in range(antalBiljetter):
-                nyBiljett = bokaBiljett(Biljett())
-                print(nyBiljett)
-                biljettLista[nyBiljett.plats - 1] = nyBiljett
+            biljettLista = underMenyBokning(biljettLista,vad)
             vad = "x"
-            print("Plats nummer " + str(nyBiljett.plats) + " är nu bokad")
         elif vad[0] == "A" or vad[0] == "a":
-            print("Avboka biljett: ")
-            vadLista = vad.split(' ')
-            antalAvbokadeBiljetter = int(vadLista[1])
-            biljettLista = avbokaBiljett(biljettLista, antalAvbokadeBiljetter)
+            biljettLista = underMenyAvBokning(biljettLista,vad)
             vad = "x"
-        elif vad == "S" or vad == "s": 
-            skrivUtSenasteBiljetter(biljettLista)
+        elif vad[0] == "S" or vad[0] == "s": 
+            skrivUtLedigaPlatser(biljettLista)
             vad = "x"
-        elif vad == "Q" or vad == "q":
+        elif vad[0] == "Q" or vad[0] == "q":
             print("Tack och välkommen åter!")
             break
         else:
-            print("Välj antingen B, A, S eller Q.")
+            underMenyFelInmatning()
             vad = "x"
+
+
+def underMenyFelInmatning():
+    print("Du måste välja antingen B, A, S eller Q.")
+    input("Tryck Enter för att fortsätta: ")
+
+
+def underMenyBokning(biljettLista,vad):
+    skrivUtLedigaPlatser(biljettLista)
+    vadLista = vad.split(' ')
+    vadListaLängd = len(vadLista)
+    if vadListaLängd == 2 and vadLista[1].isdigit():
+        antalBiljetter = int(vadLista[1])
+    else:
+        print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer.")
+        print("Antar att antal bokningar är en.")
+        antalBiljetter = 1
+    for i in range(antalBiljetter):
+        nyBiljett = bokaBiljett()
+        biljettLista[nyBiljett.plats - 1] = nyBiljett
+    return biljettLista
+
+
+def underMenyAvBokning(biljettLista,vad):
+    vadLista = vad.split(' ')
+    vadListaLängd = len(vadLista)
+    if vadListaLängd == 2 and vadLista[1].isdigit():
+        avbokadPlats = int(vadLista[1])
+        biljettLista = avbokaBiljett(biljettLista,avbokadPlats)
+        return biljettLista
+    else:
+        print("Biljettavbokning måste anges med ett A följt av ett mellanslag och ett nummer.")
+        return biljettLista
 
 
 def huvudProgram():
     """Anropar huvumenyn
    Inparameter: ingen
    Returnerar: inget """
-    
-    huvudMeny()
+
+    skapaBiljettfiler()
+    biljettLista = läsaInBiljetter()
+    print("Välkommen till SJ!\n")
+    huvudMeny(biljettLista)
+
 
 huvudProgram()
 

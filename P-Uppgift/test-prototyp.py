@@ -97,6 +97,22 @@ def bokaBiljett(biljett):
     print(biljett)
 
 
+def sparaBiljett(biljett):
+    """Sparar den bokade biljetten till en fil.
+   Inparameter: ett objekt- biljett
+   Returnerar: inget """
+    dennaMapp = os.path.dirname(sys.argv[0])
+    biljettMapp = os.path.join(dennaMapp,"biljetter")
+    filnamn = os.path.join(biljettMapp,"biljett_" + str(biljett.plats) + ".txt")
+    
+    with open(filnamn, "w") as file:
+        file.write(str(biljett))
+    
+    print("Plats nummer " + str(biljett.plats) + " är nu bokad!")
+    print("\nHär är din biljett:\n")
+    print(biljett)
+
+
 def hanteraBiljett(biljett):
     print("Bokning av biljett: ")
     #biljett.sträcka = input("Vart vill du åka?: ")
