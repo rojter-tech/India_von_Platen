@@ -139,14 +139,22 @@ def hanteraBiljett(biljett):
    Inparameter: ett objekt- biljett
    Returnerar: ett objekt- biljett """
     print("Bokning av biljett: ")
-    biljett.plats = int(input("Vilken plats vill du ha? (1-32)\n(Platser makerade med * är redan bokade): "))
-
-    gång = platser(biljett.plats)
-    
-    biljett.ägare = input("Vad heter du?: ")
-    biljett.gång = gång
-
-    return biljett 
+    print("Vilken plats vill du ha?\n(Platser makerade med * är redan bokade): ")
+    platsInput = input("Ange en ledig plats (1-32): ")
+    while True:
+        while not platsInput.isdigit():
+            print("Du måste ange ett nummer mellan 1 och 32!")
+            platsInput = input("Försök igen: ")
+        while platsInput.isdigit():
+            if int(platsInput) > 32 or int(platsInput) < 1:
+                print("Du måste ange ett nummer mellan 1 och 32!")
+                platsInput = input("Försök igen: ")
+            else:
+                biljett.plats = int(platsInput)
+                gång = platser(biljett.plats)
+                biljett.ägare = input("Vad heter du?: ")
+                biljett.gång = gång
+                return biljett
 
 
 def skapaBiljettfiler():
@@ -231,23 +239,32 @@ def skrivUtAnvändarAlternativ():
     print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n\n• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
     print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n\n• Avsluta, skriv ’Q’.\n")
     vad = str(input("Vad vill du göra?: "))
-    return vad
+    while True:
+        while vad == "":
+            print("Du måste ange ett av alternativen så som det står angivet i instruktionerna ovan.")
+            vad = input("Försök igen: ")
+        if bool(vad):
+            print("")
+            return vad
 
 
 def menyLoop():
-    fortsätt = input("Vill du göra något mer? (j/n): ")
-    if fortsätt[0] == "J" or fortsätt[0] == "j":
-        print("")
-        vad = skrivUtAnvändarAlternativ()
-    elif fortsätt[0] == "N" or fortsätt[0] == "n":
-        print("")
-        vad = "Q"
-    else:
-        print("Du måste svara antingen 'j(ja)' eller 'n(nej)'.")
-        input("Tryck Enter för att fortsätta: ")
-        print("")
-        vad = "x"
-    return vad
+    fortsätt = input("Vill du gå tillbaka till huvudmenyn och göra ett nytt val? (j/n): ")
+    while True:
+        while fortsätt == "":
+            print("Du måste svara antingen 'j(ja)' eller 'n(nej)'.")
+            fortsätt = input("Försök igen: ")
+        while bool(fortsätt):
+            if fortsätt[0] == "J" or fortsätt[0] == "j":
+                print("")
+                vad = skrivUtAnvändarAlternativ()
+                return vad
+            elif fortsätt[0] == "N" or fortsätt[0] == "n":
+                print("")
+                vad = "Q"
+                return vad
+            else:
+                fortsätt = ""
 
 
 def huvudMeny(biljettLista):
@@ -289,8 +306,9 @@ def underMenyBokning(biljettLista,vad):
     if vadListaLängd == 2 and vadLista[1].isdigit():
         antalBiljetter = int(vadLista[1])
     else:
-        print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer.")
-        print("Antar att antal bokningar är en.")
+        print("Biljettbokning kan anges med ett B följt av ett mellanslag och ett nummer")
+        print("för antal bokningar. Antar att antal bokningar som önskas är en.")
+        print("")
         antalBiljetter = 1
     for i in range(antalBiljetter):
         nyBiljett = bokaBiljett()
@@ -307,6 +325,7 @@ def underMenyAvBokning(biljettLista,vad):
         return biljettLista
     else:
         print("Biljettavbokning måste anges med ett A följt av ett mellanslag och ett nummer.")
+        print("")
         return biljettLista
 
 
