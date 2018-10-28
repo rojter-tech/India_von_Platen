@@ -143,6 +143,7 @@ def hanteraBiljett(biljettLista):
     """Ger attributen plats och ägare nya värden till biljettobjektet. 
    Inparameter: ett objekt- biljett
    Returnerar: ett objekt- biljett """
+    skrivUtLedigaPlatser(biljettLista)
     print("Bokning av biljett: ")
     print("Vilken plats vill du ha?\n(Platser makerade med * är redan bokade): ")
     platsInput = input("Ange en ledig plats (1-32): ")
@@ -244,17 +245,19 @@ def platsPlacering(plats):
     """Hanterar de strängar som tillhör värdena på plats i biljettobjektet.
    Inparameter: ett attribut- plats
    Returnerar: Två olika strängar - MITTGÅNG eller FÖNSTERPLATS """
-    if plats == 2 or plats == 3 or plats == 6 or plats == 7 or plats == 10 or plats == 11 or plats == 14 or plats == 15:
-        return "MITTGÅNG"
-    elif plats == 18 or plats == 19 or plats == 22 or plats == 23 or plats == 26 or plats == 27 or plats == 30 or plats == 31:
+    kontrolltal1 = (plats-2) % 4
+    kontrolltal2 = (plats-3) % 4
+    if kontrolltal1 == 0 or kontrolltal2 == 0:
         return "MITTGÅNG"
     else:
         return "FÖNSTERPLATS"
 
 
 def skrivUtAnvändarAlternativ():
-    print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n\n• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
-    print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n\n• Avsluta, skriv ’Q’.\n")
+    print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n")
+    print("• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
+    print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n")
+    print("• Avsluta, skriv ’Q’.\n")
     vad = str(input("Vad vill du göra?: "))
     while True:
         while vad == "":
@@ -329,7 +332,6 @@ def underMenyBokning(biljettLista,vad):
                 vadLista = vad.split(' ')
             if [vadLista[0] == 'B' or vadLista[0] == 'b'] and vadLista[1].isdigit():
                 if antalLedigaBiljetter(biljettLista) >= int(vadLista[1]):
-                    skrivUtLedigaPlatser(biljettLista)
                     antalBiljetter = int(vadLista[1])
                     for i in range(antalBiljetter):
                         nyBiljett = bokaBiljett(biljettLista)
