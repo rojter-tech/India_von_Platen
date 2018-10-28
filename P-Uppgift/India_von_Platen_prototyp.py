@@ -11,7 +11,7 @@ import sys, os
 class Biljett:
 
 
-    def __init__(self, sträcka = "Stockholm - Malmö", avgångstid = "15.00", plats = 0, ägare = "Ingen vald", gång = "Ingen vald" + "\n"):
+    def __init__(self, sträcka = "Stockholm - Malmö", avgångstid = "15.00", plats = 0, ägare = "Ingen vald", gång = "Ingen vald"):
         """Skriver ut valmenyn.
    Inparameter: self, sträcka, avgångstid, ägare, gång.
    Returnerar: ingenting """
@@ -26,8 +26,8 @@ class Biljett:
         """Skriver ut valmenyn.
    Inparameter: self
    Returnerar: uppbyggnad för hur utskriften av en biljett ska se ut. """
-        delsträng1 = "PLATSBILJETT" + "\n" + self.sträcka
-        delsträng2 = self.avgångstid + "Plats " + str(self.plats) + " \n" 
+        delsträng1 = "PLATSBILJETT" + "\n" + self.sträcka + "\n"
+        delsträng2 = self.avgångstid + "\n" + "Plats " + str(self.plats) + "\n" 
         delsträng3 = self.ägare + "\n" + self.gång + "\n"
         bijettUtskrift = delsträng1 + delsträng2 + delsträng3
         return bijettUtskrift
@@ -136,7 +136,7 @@ def sparaBiljett(biljett):
     
     print("Plats nummer " + str(biljett.plats) + " är nu bokad!")
     print("\nHär är din biljett:\n")
-    print(biljett)
+    print(biljettSträng)
     
 
 def hanteraBiljett(biljettLista):
@@ -158,7 +158,7 @@ def hanteraBiljett(biljettLista):
                 print("Denna plats är redan bokad! Ange ett nummer mellan 1 och 32 som inte är markerad med '*'.")
                 platsInput = input("Försök igen: ")
             else:
-                biljett = biljettLista[int(platsInput) - 1]
+                biljett = Biljett()
                 biljett.plats = int(platsInput)
                 biljett.ägare = input("Vad heter du?: ")
                 biljett.gång = platsPlacering(biljett.plats)
@@ -174,13 +174,13 @@ def skapaBiljettfiler():
     biljettMapp = os.path.join(dennaMapp,"biljetter")
     if not os.path.isdir(biljettMapp):
         os.mkdir(biljettMapp)
-    biljettsträng = str(Biljett())
+    biljettSträng = str(Biljett())
     for i in range(32):
         filnamn = os.path.join(biljettMapp,"biljett_" + str(i+1) + ".txt")
         finnsFil = os.path.isfile(filnamn)
         if not finnsFil: 
-                with open(filnamn, "w") as file:
-                    file.write(biljettsträng)
+            with open(filnamn, "w") as file:
+                file.write(biljettSträng)
 
 
 def läsaInBiljetter():
@@ -208,16 +208,17 @@ def avbokaBiljett(biljettLista,plats):
     """Skriver över filer som innehåller de biljetter som ska avbokas.
    Inparameter: en lista med objekt och ett atribut- biljettLista och plats.
    Returnerar:  en lista med objekt- biljettLista"""
-    print("Avboka biljett: ")
-    skrivUtLedigaPlatser(biljettLista)
     dennaMapp = os.path.dirname(sys.argv[0])
     biljettMapp = os.path.join(dennaMapp,"biljetter")
     filnamn = os.path.join(biljettMapp,"biljett_" + str(plats) + ".txt")
     with open(filnamn, "w") as file:
         file.write(str( Biljett() ))
     
+    namn = biljettLista[plats-1].ägare
     biljettLista[plats-1] = Biljett()
-    print("Plats nummer " + str(plats) + " är nu avbokad!")
+    print("Synd att du har valt att avboka din biljett " + namn + ".")
+    print("Din tidigare plats " + str(plats) + " är nu avbokad och")
+    print("därmed tillgänglig för andra att boka.")
     skrivUtLedigaPlatser(biljettLista)
     return biljettLista
 
@@ -300,7 +301,7 @@ def huvudMeny(biljettLista):
             vad = "x"
         elif vad[0] == "S" or vad[0] == "s": 
             skrivUtLedigaPlatser(biljettLista)
-            vad = "x"
+            vad = skrivUtAnvändarAlternativ()
         elif vad[0] == "Q" or vad[0] == "q":
             print("Tack och välkommen åter!")
             break
