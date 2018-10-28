@@ -378,13 +378,19 @@ def underMenyAvBokning(biljettLista,vad):
     vadListaLängd = len(vadLista)
     if vadListaLängd == 2 and vadLista[1].isdigit():
         avbokadPlats = int(vadLista[1])
-        biljettPlats = biljettLista[avbokadPlats - 1].plats
-        if biljettPlats == 0:
-            print("Du kan inte avboka en ledig plats!")
+        if avbokadPlats < 1 or avbokadPlats > 32:
+            print("Du kan inte avboka ett plats som inte har platsnummer 1-32.")
+            print("")
             return biljettLista
         else:
-            biljettLista = avbokaBiljett(biljettLista,avbokadPlats)
-            return biljettLista
+            biljettPlats = biljettLista[avbokadPlats - 1].plats
+            if biljettPlats == 0:
+                print("Du kan inte avboka en ledig plats!")
+                print("")
+                return biljettLista
+            else:
+                biljettLista = avbokaBiljett(biljettLista,avbokadPlats)
+                return biljettLista
     else:
         print("Biljettavbokning måste anges med ett A följt av ett mellanslag och ett nummer.")
         print("")
