@@ -326,8 +326,7 @@ def underMenyBokning(biljettLista,vad):
                 vad = felInmatningBokning()
                 vadLista = vad.split(' ')
             if [vadLista[0] == 'B' or vadLista[0] == 'b'] and vadLista[1].isdigit():
-                biljettLista = giltigInmatningBokning(biljettLista,vadLista)
-                return biljettLista
+                return giltigInmatningBokning(biljettLista,vadLista)
             else:
                 vad = "x"
         else:
@@ -343,6 +342,7 @@ def giltigInmatningBokning(biljettLista,vadLista):
             biljettLista[nyBiljett.plats - 1] = nyBiljett
         return biljettLista
     else:
+        skrivUtLedigaPlatser(biljettLista)
         print("")
         print("Det finns endast " + str(antalLedigaBiljetter(biljettLista)) + " platser kvar!")
         return biljettLista
