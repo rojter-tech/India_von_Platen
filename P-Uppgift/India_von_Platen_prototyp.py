@@ -98,7 +98,7 @@ def skrivUtLedigaPlatser(biljettLista):
    Inparameter: en lista med objekt i- biljettLista
    Returnerar: ingenting """
     print("________________________________________________")
-    print("⎾               " + str(antalLedigaBiljetter(biljettLista)) + " lediga platser.             ⏋")
+    print("⎾        Just nu finns " + str(antalLedigaBiljetter(biljettLista)) + " lediga platser.      ⏋")
     platsLista = hanteraPlatser(biljettLista)
 
     n = 0
@@ -144,7 +144,6 @@ def hanteraBiljett(biljettLista):
    Inparameter: ett objekt- biljett
    Returnerar: ett objekt- biljett """
     skrivUtLedigaPlatser(biljettLista)
-    print("Bokning av biljett: ")
     print("Vilken plats vill du ha?\n(Platser makerade med * är redan bokade): ")
     platsInput = input("Ange en ledig plats (1-32): ")
     while True:
@@ -334,6 +333,7 @@ def underMenyBokning(biljettLista,vad):
                 if antalLedigaBiljetter(biljettLista) >= int(vadLista[1]):
                     antalBiljetter = int(vadLista[1])
                     for i in range(antalBiljetter):
+                        print("Bokning av biljett " + str(i + 1) + " av " + str(antalBiljetter) + ".")
                         nyBiljett = bokaBiljett(biljettLista)
                         biljettLista[nyBiljett.plats - 1] = nyBiljett
                     return biljettLista
