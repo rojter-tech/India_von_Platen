@@ -303,20 +303,29 @@ def underMenyFelInmatning():
 
 
 def underMenyBokning(biljettLista,vad):
-    skrivUtLedigaPlatser(biljettLista)
-    vadLista = vad.split(' ')
-    vadListaLängd = len(vadLista)
-    if vadListaLängd == 2 and vadLista[1].isdigit():
-        antalBiljetter = int(vadLista[1])
-    else:
-        print("Biljettbokning kan anges med ett B följt av ett mellanslag och ett nummer")
-        print("för antal bokningar. Antar att antal bokningar som önskas är en.")
-        print("")
-        antalBiljetter = 1
-    for i in range(antalBiljetter):
-        nyBiljett = bokaBiljett()
-        biljettLista[nyBiljett.plats - 1] = nyBiljett
-    return biljettLista
+    
+    while True:
+        vadLista = vad.split(' ')
+        if len(vadLista) > 1:
+            while len(vadLista) != 2:
+                print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer1")
+                print("för att ange antal bokningar, exempelvis 'B 1' ")
+                print("")
+                vad = str(input("Försök igen: "))
+                vadLista = vad.split(' ')
+            if vadLista[0] == 'B' or vadLista[0] == 'b' and vadLista[1].isdigit():
+                skrivUtLedigaPlatser(biljettLista)
+                antalBiljetter = int(vadLista[1])
+                for i in range(antalBiljetter):
+                    nyBiljett = bokaBiljett()
+                    biljettLista[nyBiljett.plats - 1] = nyBiljett
+                return biljettLista
+        else:
+            print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer2")
+            print("för att ange antal bokningar, exempelvis 'B 1' ")
+            print("")
+            vad = str(input("Försök igen: "))
+
 
 
 def underMenyAvBokning(biljettLista,vad):
