@@ -40,7 +40,7 @@ class Biljett:
 
 
 def konverteraPlatsLista(platsListaKolumn):
-    """Byter plats på rad och kolumn i en lista. 
+    """Byter plats på rad och kolumn i en tvådimensionell lista. 
        Inparameter: platsListaKolumn
         Returnerar: en lista- platsLista"""
     platsLista = []
@@ -167,7 +167,7 @@ def hanteraBiljett(biljettLista):
                 biljett = Biljett()
                 biljett.plats = int(platsInput)
                 biljett.ägare = input("Vad heter du?: ")
-                biljett.gång = platsPlacering(biljett.plats)
+                biljett.gång = gångPlacering(biljett.plats)
                 return biljett
 
 
@@ -255,7 +255,7 @@ def antalLedigaBiljetter(biljettLista):
     return n
 
 
-def platsPlacering(plats):
+def gångPlacering(plats):
     """Hanterar de strängar som tillhör värdena på plats i biljettobjektet.
    Inparameter: ett attribut- plats
    Returnerar: Två olika strängar - MITTGÅNG eller FÖNSTERPLATS """
