@@ -10,8 +10,14 @@ import sys, os
 
 class Biljett:
 
+    #Hårdkodad sträcka, avgångstid, plats, ägare och gångplacering
+    s = "Stockholm - Malmö"
+    a = "15.00"
+    p = 0
+    ä = "Ingen vald"
+    g = "Ingen vald"
 
-    def __init__(self, sträcka = "Stockholm - Malmö", avgångstid = "15.00", plats = 0, ägare = "Ingen vald", gång = "Ingen vald"):
+    def __init__(self, sträcka = s, avgångstid = a, plats = p, ägare = ä, gång = g):
         """Skriver ut valmenyn.
    Inparameter: self, sträcka, avgångstid, ägare, gång.
    Returnerar: ingenting """
@@ -60,10 +66,10 @@ def hämtaPlatsStatus(biljett,biljettNummer):
 
 
 def hämtaPlatsSekvens(platsSekvens,i):
-    if (i % 2) == 0: # Läses som "i modulus 2" som blir 0 om i är ett jämnt tal (0, 2, 4 .. osv)
+    if (i % 2) == 0:
         return platsSekvens
     else:
-        return platsSekvens[::-1] # Annars (om i är udda) lagras platserna i omvänd ordning.
+        return platsSekvens[::-1]
 
 
 def hämtaPlatsLista(biljettLista):
