@@ -10,7 +10,7 @@ import sys, os
 
 class Biljett:
 
-    #Hårdkodad sträcka, avgångstid, plats, ägare och gångplacering
+    #Hårdkodade "default"-parametrar för sträcka, avgångstid, plats, ägare och gångplacering
     s = "Stockholm - Malmö"
     a = "15.00"
     p = 0
@@ -211,7 +211,8 @@ def läsaInBiljetter():
 
 
 def avbokaBiljett(biljettLista,plats):
-    """Skriver över filer som innehåller de biljetter som ska avbokas.
+    """Skriver över filer som innehåller de biljetter som ska avbokas
+       och uppdaterar biljettens status i den aktuella biljettlistan.
    Inparameter: en lista med objekt och ett atribut- biljettLista och plats.
    Returnerar:  en lista med objekt- biljettLista"""
     dennaMapp = os.path.dirname(sys.argv[0])
@@ -233,9 +234,17 @@ def skrivUtSenasteBiljetter(biljettLista):
     """Skriver ut de biljetter som senast bokats.
    Inparameter: en lista med objekt- biljettLista
    Returnerar: två olika strängar beroende på värdet av plats """
-    for i in range(32):
-        if biljettLista[i].plats != 0:
-            print(str(biljettLista[i]))
+    if len(biljettLista) == 0:
+        print("Du har inte bokat någon/några biljetter ännu.")
+        print("")
+        input("Tryck Enter för att återgå till huvudmenyn: ")
+    else:
+        print("Det har bokat " + str(len(biljettLista)) + " st biljetter:")
+        for i in range(len(biljettLista)):
+            if biljettLista[i].plats != 0:
+                print(str(biljettLista[i]))
+        print("")
+        input("Tryck Enter för att återgå till huvudmenyn: ")
 
 
 def antalLedigaBiljetter(biljettLista):
@@ -258,7 +267,8 @@ def platsPlacering(plats):
         return "FÖNSTERPLATS"
 
 
-def skrivUtAnvändarAlternativ():
+def skrivUtAnvändarAlternativ(biljettLista):
+    skrivUtLedigaPlatser(biljettLista)
     print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n")
     print("• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
     print("• Skriva ut de senast bokade biljetterna, skriv ’S’.\n")
@@ -273,7 +283,7 @@ def skrivUtAnvändarAlternativ():
             return vad
 
 
-def menyLoop():
+def menyLoop(biljettLista):
     fortsätt = input("Vill du gå tillbaka till huvudmenyn och göra ett nytt val? (j/n): ")
     while True:
         while fortsätt == "":
@@ -282,7 +292,7 @@ def menyLoop():
         while bool(fortsätt):
             if fortsätt[0] == "J" or fortsätt[0] == "j":
                 print("")
-                vad = skrivUtAnvändarAlternativ()
+                vad = skrivUtAnvändarAlternativ(biljettLista)
                 return vad
             elif fortsätt[0] == "N" or fortsätt[0] == "n":
                 print("")
@@ -293,23 +303,23 @@ def menyLoop():
 
 def huvudMeny(biljettLista):
     """Skriver ut valmenyn samt anropar resterande funktioner i programmet
-   Inparameter: ingen
+   Inparameter: lista med biljettobjekt
    Returnerar: inget"""
 
-    vad = skrivUtAnvändarAlternativ()
-    
+    vad = skrivUtAnvändarAlternativ(biljettLista)
+    aktuellLista = []
     while True: #Fixa felhantering
         if vad[0] == "x":
-            vad = menyLoop()
+            vad = menyLoop(biljettLista)
         elif vad[0] == "B" or vad[0] == "b":
-            biljettLista = underMenyBokning(biljettLista,vad)
+            [biljettLista,aktuellLista] = underMenyBokning(biljettLista,aktuellLista,vad)
             vad = "x"
         elif vad[0] == "A" or vad[0] == "a":
             biljettLista = underMenyAvBokning(biljettLista,vad)
             vad = "x"
         elif vad[0] == "S" or vad[0] == "s": 
-            skrivUtLedigaPlatser(biljettLista)
-            vad = skrivUtAnvändarAlternativ()
+            skrivUtSenasteBiljetter(aktuellLista)
+            vad = skrivUtAnvändarAlternativ(biljettLista)
         elif vad[0] == "Q" or vad[0] == "q":
             print("Tack och välkommen åter!")
             break
@@ -323,7 +333,7 @@ def underMenyFelInmatning():
     input("Tryck Enter för att fortsätta: ")
 
 
-def underMenyBokning(biljettLista,vad):
+def underMenyBokning(biljettLista,aktuellLista,vad):
 
     while True:
         vadLista = vad.split(' ')
@@ -332,26 +342,26 @@ def underMenyBokning(biljettLista,vad):
                 vad = felInmatningBokning()
                 vadLista = vad.split(' ')
             if [vadLista[0] == 'B' or vadLista[0] == 'b'] and vadLista[1].isdigit():
-                return giltigInmatningBokning(biljettLista,vadLista)
+                return giltigInmatningBokning(biljettLista,aktuellLista,vadLista)
             else:
                 vad = "x"
         else:
             vad = felInmatningBokning()
 
 
-def giltigInmatningBokning(biljettLista,vadLista):
+def giltigInmatningBokning(biljettLista,aktuellLista,vadLista):
     if antalLedigaBiljetter(biljettLista) >= int(vadLista[1]):
         antalBiljetter = int(vadLista[1])
         for i in range(antalBiljetter):
             print("Bokning av biljett " + str(i + 1) + " av " + str(antalBiljetter) + ".")
             nyBiljett = bokaBiljett(biljettLista)
             biljettLista[nyBiljett.plats - 1] = nyBiljett
-        return biljettLista
+            aktuellLista.append(nyBiljett)
+        return biljettLista, aktuellLista
     else:
-        skrivUtLedigaPlatser(biljettLista)
         print("")
         print("Det finns endast " + str(antalLedigaBiljetter(biljettLista)) + " platser kvar!")
-        return biljettLista
+        return biljettLista, aktuellLista
 
 
 def felInmatningBokning():
@@ -387,7 +397,8 @@ def huvudProgram():
 
     skapaBiljettfiler()
     biljettLista = läsaInBiljetter()
-    print("Välkommen till SJ!\n")
+    print("")
+    print("               Välkommen till SJ!\n")
     huvudMeny(biljettLista)
 
 
