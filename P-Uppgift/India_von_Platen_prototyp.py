@@ -3,7 +3,7 @@
 #Kurs i programmeringsteknik
 #DD100N
 #Uppgift 127- Platsbokning på SJ
-#Datastrukturer: Filhantering, listor med objekt
+#Datastrukturer, filhantering
 
 import sys, os              
 
@@ -26,9 +26,9 @@ class Biljett:
         """Skriver ut valmenyn.
    Inparameter: self
    Returnerar: uppbyggnad för hur utskriften av en biljett ska se ut. """
-        delsträng1 = "PLATSBILJETT" + "\n" + str(self.sträcka) + "\n"
-        delsträng2 = str(self.avgångstid) + "\n" + "Plats " + str(self.plats) + " \n" 
-        delsträng3 = str(self.ägare) + "\n" + str(self.gång) + "\n"
+        delsträng1 = "PLATSBILJETT" + "\n" + self.sträcka
+        delsträng2 = self.avgångstid + "Plats " + str(self.plats) + " \n" 
+        delsträng3 = self.ägare + "\n" + self.gång + "\n"
         bijettUtskrift = delsträng1 + delsträng2 + delsträng3
         return bijettUtskrift
 
@@ -97,7 +97,8 @@ def skrivUtLedigaPlatser(biljettLista):
     """Skriver ut bilden av tågvagnen.
    Inparameter: en lista med objekt i- biljettLista
    Returnerar: ingenting """
-    
+    print("________________________________________________")
+    print("⎾               " + str(antalLedigaBiljetter(biljettLista)) + " lediga platser.             ⏋")
     platsLista = hanteraPlatser(biljettLista)
 
     n = 0
@@ -112,11 +113,11 @@ def skrivUtLedigaPlatser(biljettLista):
     print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
 
-def bokaBiljett():
+def bokaBiljett(biljettLista):
     """Skriver ut valmenyn
    Inparameter: ett objekt- biljett
    Returnerar:variabel som innehåller information om biljetten- nyBiljett """
-    nyBiljett = hanteraBiljett(Biljett())
+    nyBiljett = hanteraBiljett(biljettLista)
     sparaBiljett(nyBiljett)
 
     return nyBiljett
@@ -129,16 +130,16 @@ def sparaBiljett(biljett):
     dennaMapp = os.path.dirname(sys.argv[0])
     biljettMapp = os.path.join(dennaMapp,"biljetter")
     filnamn = os.path.join(biljettMapp,"biljett_" + str(biljett.plats) + ".txt")
-    
+    biljettSträng = str(biljett)
     with open(filnamn, "w") as file:
-        file.write(str(biljett))
+        file.write(biljettSträng)
     
     print("Plats nummer " + str(biljett.plats) + " är nu bokad!")
     print("\nHär är din biljett:\n")
     print(biljett)
     
 
-def hanteraBiljett(biljett):
+def hanteraBiljett(biljettLista):
     """Ger attributen plats och ägare nya värden till biljettobjektet. 
    Inparameter: ett objekt- biljett
    Returnerar: ett objekt- biljett """
@@ -153,11 +154,14 @@ def hanteraBiljett(biljett):
             if int(platsInput) > 32 or int(platsInput) < 1:
                 print("Du måste ange ett nummer mellan 1 och 32!")
                 platsInput = input("Försök igen: ")
+            elif biljettLista[int(platsInput) -1].plats != 0:
+                print("Denna plats är redan bokad! Ange ett nummer mellan 1 och 32 som inte är markerad med '*'.")
+                platsInput = input("Försök igen: ")
             else:
+                biljett = biljettLista[int(platsInput) - 1]
                 biljett.plats = int(platsInput)
-                gång = platser(biljett.plats)
                 biljett.ägare = input("Vad heter du?: ")
-                biljett.gång = gång
+                biljett.gång = platsPlacering(biljett.plats)
                 return biljett
 
 
@@ -227,7 +231,15 @@ def skrivUtSenasteBiljetter(biljettLista):
             print(str(biljettLista[i]))
 
 
-def platser(plats):
+def antalLedigaBiljetter(biljettLista):
+    n = 0
+    for biljett in biljettLista:
+        if biljett.plats == 0:
+            n += 1
+    return n
+
+
+def platsPlacering(plats):
     """Hanterar de strängar som tillhör värdena på plats i biljettobjektet.
    Inparameter: ett attribut- plats
    Returnerar: Två olika strängar - MITTGÅNG eller FÖNSTERPLATS """
@@ -303,29 +315,37 @@ def underMenyFelInmatning():
 
 
 def underMenyBokning(biljettLista,vad):
-    
+
     while True:
         vadLista = vad.split(' ')
         if len(vadLista) > 1:
             while len(vadLista) != 2:
+                skrivUtLedigaPlatser(biljettLista)
                 print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer1")
                 print("för att ange antal bokningar, exempelvis 'B 1' ")
                 print("")
                 vad = str(input("Försök igen: "))
                 vadLista = vad.split(' ')
-            if vadLista[0] == 'B' or vadLista[0] == 'b' and vadLista[1].isdigit():
-                skrivUtLedigaPlatser(biljettLista)
-                antalBiljetter = int(vadLista[1])
-                for i in range(antalBiljetter):
-                    nyBiljett = bokaBiljett()
-                    biljettLista[nyBiljett.plats - 1] = nyBiljett
-                return biljettLista
+            if [vadLista[0] == 'B' or vadLista[0] == 'b'] and vadLista[1].isdigit():
+                if antalLedigaBiljetter(biljettLista) >= int(vadLista[1]):
+                    skrivUtLedigaPlatser(biljettLista)
+                    antalBiljetter = int(vadLista[1])
+                    for i in range(antalBiljetter):
+                        nyBiljett = bokaBiljett(biljettLista)
+                        biljettLista[nyBiljett.plats - 1] = nyBiljett
+                    return biljettLista
+                else:
+                    print("")
+                    print("Det finns endast " + str(antalLedigaBiljetter(biljettLista)) + " platser kvar!")
+                    vad = "x"
+            else:
+                vad = "x"
         else:
+            skrivUtLedigaPlatser(biljettLista)
             print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer2")
             print("för att ange antal bokningar, exempelvis 'B 1' ")
             print("")
             vad = str(input("Försök igen: "))
-
 
 
 def underMenyAvBokning(biljettLista,vad):
@@ -349,6 +369,7 @@ def huvudProgram():
     skapaBiljettfiler()
     biljettLista = läsaInBiljetter()
     print("Välkommen till SJ!\n")
+    antalLedigaBiljetter(biljettLista)
     huvudMeny(biljettLista)
 
 
