@@ -326,21 +326,25 @@ def underMenyBokning(biljettLista,vad):
                 vad = felInmatningBokning()
                 vadLista = vad.split(' ')
             if [vadLista[0] == 'B' or vadLista[0] == 'b'] and vadLista[1].isdigit():
-                if antalLedigaBiljetter(biljettLista) >= int(vadLista[1]):
-                    antalBiljetter = int(vadLista[1])
-                    for i in range(antalBiljetter):
-                        print("Bokning av biljett " + str(i + 1) + " av " + str(antalBiljetter) + ".")
-                        nyBiljett = bokaBiljett(biljettLista)
-                        biljettLista[nyBiljett.plats - 1] = nyBiljett
-                    return biljettLista
-                else:
-                    print("")
-                    print("Det finns endast " + str(antalLedigaBiljetter(biljettLista)) + " platser kvar!")
-                    vad = "x"
+                biljettLista = giltigInmatningBokning(biljettLista,vadLista)
+                return biljettLista
             else:
                 vad = "x"
         else:
             vad = felInmatningBokning()
+
+def giltigInmatningBokning(biljettLista,vadLista):
+    if antalLedigaBiljetter(biljettLista) >= int(vadLista[1]):
+        antalBiljetter = int(vadLista[1])
+        for i in range(antalBiljetter):
+            print("Bokning av biljett " + str(i + 1) + " av " + str(antalBiljetter) + ".")
+            nyBiljett = bokaBiljett(biljettLista)
+            biljettLista[nyBiljett.plats - 1] = nyBiljett
+        return biljettLista
+    else:
+        print("")
+        print("Det finns endast " + str(antalLedigaBiljetter(biljettLista)) + " platser kvar!")
+        return biljettLista
 
 def felInmatningBokning():
     print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer")
