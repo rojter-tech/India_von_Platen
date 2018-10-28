@@ -333,6 +333,7 @@ def underMenyBokning(biljettLista,vad):
         else:
             vad = felInmatningBokning()
 
+
 def giltigInmatningBokning(biljettLista,vadLista):
     if antalLedigaBiljetter(biljettLista) >= int(vadLista[1]):
         antalBiljetter = int(vadLista[1])
@@ -345,6 +346,7 @@ def giltigInmatningBokning(biljettLista,vadLista):
         print("")
         print("Det finns endast " + str(antalLedigaBiljetter(biljettLista)) + " platser kvar!")
         return biljettLista
+
 
 def felInmatningBokning():
     print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer")
