@@ -349,6 +349,7 @@ def felInmatningBokning():
     vad = str(input("Försök igen: "))
     return vad
 
+
 def underMenyAvBokning(biljettLista,vad):
     vadLista = vad.split(' ')
     vadListaLängd = len(vadLista)
@@ -375,7 +376,6 @@ def huvudProgram():
     skapaBiljettfiler()
     biljettLista = läsaInBiljetter()
     print("Välkommen till SJ!\n")
-    antalLedigaBiljetter(biljettLista)
     huvudMeny(biljettLista)
 
 
