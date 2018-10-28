@@ -168,6 +168,7 @@ def hanteraBiljett(biljettLista):
                 biljett.plats = int(platsInput)
                 biljett.ägare = input("Vad heter du?: ")
                 biljett.gång = gångPlacering(biljett.plats)
+                print("")
                 return biljett
 
 
@@ -226,7 +227,6 @@ def avbokaBiljett(biljettLista,plats):
     print("Synd att du har valt att avboka din biljett " + namn + ".")
     print("Din tidigare plats " + str(plats) + " är nu avbokad och")
     print("därmed tillgänglig för andra att boka.")
-    skrivUtLedigaPlatser(biljettLista)
     return biljettLista
 
 
@@ -239,7 +239,8 @@ def skrivUtSenasteBiljetter(biljettLista):
         print("")
         input("Tryck Enter för att återgå till huvudmenyn: ")
     else:
-        print("Det har bokat " + str(len(biljettLista)) + " st biljetter:")
+        print("Du har bokat " + str(len(biljettLista)) + " st biljetter:")
+        print("")
         for i in range(len(biljettLista)):
             if biljettLista[i].plats != 0:
                 print(str(biljettLista[i]))
