@@ -27,7 +27,7 @@ class Biljett:
    Inparameter: self
    Returnerar: uppbyggnad för hur utskriften av en biljett ska se ut. """
         delsträng1 = "PLATSBILJETT" + "\n" + self.sträcka + "\n"
-        delsträng2 = self.avgångstid + "\n" + "Plats " + str(self.plats) + "\n" 
+        delsträng2 = self.avgångstid + "\n" + "Plats " + str(self.plats) + " \n" 
         delsträng3 = self.ägare + "\n" + self.gång + "\n"
         bijettUtskrift = delsträng1 + delsträng2 + delsträng3
         return bijettUtskrift
@@ -196,10 +196,10 @@ def läsaInBiljetter():
         filnamn = os.path.join(biljettMapp, "biljett_" + str(i+1) + ".txt")
         with open(filnamn, "r") as file:
             file.readline()
-            sträcka = file.readline()
-            avgångstid = file.readline()
+            sträcka = file.readline().split('\n')[0]
+            avgångstid = file.readline().split('\n')[0]
             plats = int(file.readline().split(' ')[1])
-            ägare = file.readline()
+            ägare = file.readline().split('\n')[0]
             biljettLista[i] = Biljett(sträcka, avgångstid, plats, ägare)
     return biljettLista
 
@@ -354,8 +354,13 @@ def underMenyAvBokning(biljettLista,vad):
     vadListaLängd = len(vadLista)
     if vadListaLängd == 2 and vadLista[1].isdigit():
         avbokadPlats = int(vadLista[1])
-        biljettLista = avbokaBiljett(biljettLista,avbokadPlats)
-        return biljettLista
+        biljettPlats = biljettLista[avbokadPlats - 1].plats
+        if biljettPlats == 0:
+            print("Du kan inte avboka en ledig plats!")
+            return biljettLista
+        else:
+            biljettLista = avbokaBiljett(biljettLista,avbokadPlats)
+            return biljettLista
     else:
         print("Biljettavbokning måste anges med ett A följt av ett mellanslag och ett nummer.")
         print("")
