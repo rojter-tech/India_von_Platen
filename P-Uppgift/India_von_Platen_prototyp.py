@@ -5,7 +5,7 @@
 #Uppgift 127- Platsbokning på SJ
 #Datastrukturer, filhantering
 
-import sys, os              
+import sys, os
 
 
 class Biljett:
@@ -96,7 +96,7 @@ def hanteraPlatser(biljettLista):
         Returnerar: en lista med heltal- konverteraPlatsLista(platsListaKolumn)"""
     platsLista = hämtaPlatsLista(biljettLista)
     rättvändPlatslista = konverteraPlatsLista(platsLista)
-    return rättvändPlatslista # Gör en sista konvertering av listan och returnerar den "rättvända" listan.
+    return rättvändPlatslista
 
 
 def skrivUtLedigaPlatser(biljettLista):
@@ -309,7 +309,7 @@ def huvudMeny(biljettLista):
 
     vad = skrivUtAnvändarAlternativ(biljettLista)
     aktuellLista = []
-    while True: #Fixa felhantering
+    while True:
         if vad[0] == "x":
             vad = menyLoop(biljettLista)
         elif vad[0] == "B" or vad[0] == "b":
