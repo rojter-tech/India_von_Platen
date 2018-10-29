@@ -54,6 +54,10 @@ def konverteraPlatsLista(platsListaKolumn):
 
 
 def hämtaPlatsStatus(biljett,biljettNummer):
+    """Kollar platsangivelse på ett biljett-objekt och ger tillbaka olika
+       strängar beroende på vilket nummer som finns lagrat.
+       Inparameter: biljettobjekt och ett heltal
+        Returnerar: en sträng"""
     if biljett.plats == 0:
         if biljettNummer < 10:
             platsstatus = str(biljettNummer) + " "
@@ -66,6 +70,10 @@ def hämtaPlatsStatus(biljett,biljettNummer):
 
 
 def hämtaPlatsSekvens(platsSekvens,i):
+    """Använder index för att avgöra om en platssekvens om 4
+       ska ordnas i bakvänd ordning eller returneras obehandlad.
+       Inparameter: Lista med strängar och ett heltal
+        Returnerar: Lista med strängar"""
     if (i % 2) == 0:
         return platsSekvens
     else:
@@ -73,6 +81,10 @@ def hämtaPlatsSekvens(platsSekvens,i):
 
 
 def hämtaPlatsLista(biljettLista):
+    """Går igenom strukturen för den tvådimensionella listan som
+       ska rymma information om platsstatus för biljetter.
+       Inparameter: en lista med objekt av typen Biljett()- biljettLista
+        Returnerar: Lista med strängar"""
     platsLista = 8 * [None]
     platsSekvens = 4 * [None]
     biljettIndex = 0
@@ -93,7 +105,7 @@ def hanteraPlatser(biljettLista):
         och hämtar information om platsnummer som i sin tur
         lagras i en ny lista. 
        Inparameter: en lista med objekt av typen Biljett()- biljettLista
-        Returnerar: en lista med heltal- konverteraPlatsLista(platsListaKolumn)"""
+        Returnerar: en lista med strängar- konverteraPlatsLista(platsListaKolumn)"""
     platsLista = hämtaPlatsLista(biljettLista)
     rättvändPlatslista = konverteraPlatsLista(platsLista)
     return rättvändPlatslista
@@ -120,9 +132,10 @@ def skrivUtLedigaPlatser(biljettLista):
 
 
 def bokaBiljett(biljettLista):
-    """Skriver ut valmenyn
-   Inparameter: ett objekt- biljett
-   Returnerar:variabel som innehåller information om biljetten- nyBiljett """
+    """Ser till att att en ny biljett tar sin slutgiltiga form
+    och sparar därefter informationen till fil.
+   Inparameter: Lista med objekt av typen Biljett()
+   Returnerar: Ett Biljett()-objekt """
     nyBiljett = hanteraBiljett(biljettLista)
     sparaBiljett(nyBiljett)
 
@@ -249,6 +262,9 @@ def skrivUtSenasteBiljetter(biljettLista):
 
 
 def antalLedigaBiljetter(biljettLista):
+    """Räknar hur många biljetter som är lediga i biljettLista.
+   Inparameter: Lista med objekt av typen Biljett()
+   Returnerar: Ett heltal"""
     n = 0
     for biljett in biljettLista:
         if biljett.plats == 0:
@@ -269,6 +285,9 @@ def gångPlacering(plats):
 
 
 def skrivUtAnvändarAlternativ(biljettLista):
+    """Erbjuder användaren de alternativ som är förknippat med huvudmenyn.
+   Inparameter: Lista med biljettobjekt
+   Returnerar: En sträng"""
     skrivUtLedigaPlatser(biljettLista)
     print("• Boka, skriv ’B’, på samma rad följt av önskat antal biljetter.\n")
     print("• Avboka, skriv ’A’, på samma rad följt av ett platsnummer.\n")
@@ -285,6 +304,9 @@ def skrivUtAnvändarAlternativ(biljettLista):
 
 
 def menyLoop(biljettLista):
+    """Erbjuder användaren om denne vill återgå till Huvudmeny eller avsluta programmet.
+   Inparameter: Lista med biljettobjekt
+   Returnerar: En sträng"""
     fortsätt = input("Vill du gå tillbaka till huvudmenyn och göra ett nytt val? (j/n): ")
     while True:
         while fortsätt == "":
@@ -310,14 +332,12 @@ def huvudMeny(biljettLista):
     vad = skrivUtAnvändarAlternativ(biljettLista)
     aktuellLista = []
     while True:
-        if vad[0] == "x":
-            vad = menyLoop(biljettLista)
-        elif vad[0] == "B" or vad[0] == "b":
+        if vad[0] == "B" or vad[0] == "b":
             [biljettLista,aktuellLista] = underMenyBokning(biljettLista,aktuellLista,vad)
-            vad = "x"
+            vad = menyLoop(biljettLista)
         elif vad[0] == "A" or vad[0] == "a":
             biljettLista = underMenyAvBokning(biljettLista,vad)
-            vad = "x"
+            vad = menyLoop(biljettLista)
         elif vad[0] == "S" or vad[0] == "s": 
             skrivUtSenasteBiljetter(aktuellLista)
             vad = skrivUtAnvändarAlternativ(biljettLista)
@@ -330,12 +350,17 @@ def huvudMeny(biljettLista):
 
 
 def underMenyFelInmatning():
+    """Hanterar utskrift vid felinmatning i Huvudmeny
+   Inparameter: inget
+   Returnerar: inget"""
     print("Du måste välja antingen B, A, S eller Q.")
     input("Tryck Enter för att fortsätta: ")
 
 
 def underMenyBokning(biljettLista,aktuellLista,vad):
-
+    """Kontrollfunktion som hanterar imatning vid bokning av biljett.
+   Inparameter: Två listor med biljettobjekt och en sträng
+   Returnerar: Två listor med biljettobjekt """
     while True:
         vadLista = vad.split(' ')
         if len(vadLista) > 1:
@@ -343,7 +368,8 @@ def underMenyBokning(biljettLista,aktuellLista,vad):
                 vad = felInmatningBokning()
                 vadLista = vad.split(' ')
             if [vadLista[0] == 'B' or vadLista[0] == 'b'] and vadLista[1].isdigit():
-                return giltigInmatningBokning(biljettLista,aktuellLista,vadLista)
+                [biljettLista, aktuellLista] = giltigInmatningBokning(biljettLista,aktuellLista,vadLista)
+                return biljettLista, aktuellLista
             else:
                 vad = "x"
         else:
@@ -351,6 +377,10 @@ def underMenyBokning(biljettLista,aktuellLista,vad):
 
 
 def giltigInmatningBokning(biljettLista,aktuellLista,vadLista):
+    """Kontrollfunktion som hanterar imatning vid giltig inmatning av bokning av biljett.
+    Det är här anropet för själva bokningen sluligen görs.
+   Inparameter: Två listor med biljettobjekt och en sträng
+   Returnerar: Två listor med biljettobjekt """
     if antalLedigaBiljetter(biljettLista) >= int(vadLista[1]):
         antalBiljetter = int(vadLista[1])
         for i in range(antalBiljetter):
@@ -366,6 +396,9 @@ def giltigInmatningBokning(biljettLista,aktuellLista,vadLista):
 
 
 def felInmatningBokning():
+    """Hanterar utskrift vid felinmatning i underMenyBokning
+   Inparameter: inget
+   Returnerar: en sträng"""
     print("Biljettbokning måste anges med ett B följt av ett mellanslag och ett nummer")
     print("för att ange antal bokningar, exempelvis 'B 1' ")
     print("")
@@ -374,6 +407,9 @@ def felInmatningBokning():
 
 
 def underMenyAvBokning(biljettLista,vad):
+    """Kontrollfunktion som hanterar imatning vid avbokning av biljett.
+   Inparameter: Lista med biljettobjekt och en sträng
+   Returnerar: Lista med biljettobjekt """
     vadLista = vad.split(' ')
     vadListaLängd = len(vadLista)
     if vadListaLängd == 2 and vadLista[1].isdigit():
