@@ -102,3 +102,6 @@ ENV/
 
 # txt
 *.txt
+
+# vsdx
+*.~vsdx

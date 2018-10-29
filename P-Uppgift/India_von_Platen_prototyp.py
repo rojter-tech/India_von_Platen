@@ -238,8 +238,10 @@ def avbokaBiljett(biljettLista,plats):
     namn = biljettLista[plats-1].ägare
     biljettLista[plats-1] = Biljett()
     print("Synd att du har valt att avboka din biljett " + namn + ".")
+    print("")
     print("Din tidigare plats " + str(plats) + " är nu avbokad och")
     print("därmed tillgänglig för andra att boka.")
+    print("")
     return biljettLista
 
 
@@ -265,11 +267,11 @@ def antalLedigaBiljetter(biljettLista):
     """Räknar hur många biljetter som är lediga i biljettLista.
    Inparameter: Lista med objekt av typen Biljett()
    Returnerar: Ett heltal"""
-    n = 0
+    antal = 0
     for biljett in biljettLista:
         if biljett.plats == 0:
-            n += 1
-    return n
+            antal += 1
+    return antal
 
 
 def gångPlacering(plats):
