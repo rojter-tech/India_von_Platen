@@ -252,7 +252,6 @@ def skrivUtSenasteBiljetter(biljettLista):
     if len(biljettLista) == 0:
         print("Du har inte bokat någon/några biljetter ännu.")
         print("")
-        input("Tryck Enter för att återgå till huvudmenyn: ")
     else:
         print("Du har bokat " + str(len(biljettLista)) + " st biljetter:")
         print("")
@@ -260,7 +259,6 @@ def skrivUtSenasteBiljetter(biljettLista):
             if biljettLista[i].plats != 0:
                 print(str(biljettLista[i]))
         print("")
-        input("Tryck Enter för att återgå till huvudmenyn: ")
 
 
 def antalLedigaBiljetter(biljettLista):
@@ -342,7 +340,7 @@ def huvudMeny(biljettLista):
             vad = menyLoop(biljettLista)
         elif vad[0] == "S" or vad[0] == "s": 
             skrivUtSenasteBiljetter(aktuellLista)
-            vad = skrivUtAnvändarAlternativ(biljettLista)
+            vad = menyLoop(biljettLista)
         elif vad[0] == "Q" or vad[0] == "q":
             print("Tack och välkommen åter!")
             break
