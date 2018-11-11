@@ -7,7 +7,6 @@
 
 import sys, os
 
-
 class Biljett:
 
     #Hårdkodade "default"-parametrar för sträcka, avgångstid, plats, ägare och gångplacering
@@ -346,7 +345,7 @@ def huvudMeny(biljettLista):
             break
         else:
             underMenyFelInmatning()
-            vad = "x"
+            vad = menyLoop(biljettLista)
 
 
 def underMenyFelInmatning():
@@ -354,7 +353,6 @@ def underMenyFelInmatning():
    Inparameter: inget
    Returnerar: inget"""
     print("Du måste välja antingen B, A, S eller Q.")
-    input("Tryck Enter för att fortsätta: ")
 
 
 def underMenyBokning(biljettLista,aktuellLista,vad):
