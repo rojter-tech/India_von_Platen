@@ -1,3 +1,6 @@
+def func(x):
+    return x[1]
+
 namnLista = ['Erik','Bosse','Gregor','Adam']
 poangLista = [2,1,45,8]
 resultatLista = {}
@@ -5,7 +8,7 @@ for i in range(len(namnLista)):
     resultatLista[namnLista[i]] = poangLista[i]
 
 print(resultatLista.items())
-sorteradeResultatLista = sorted(resultatLista.items(), key=lambda x: x[1], reverse = True)
+sorteradeResultatLista = sorted(resultatLista.items(), key= func, reverse = True)
 
 for i in range(len(sorteradeResultatLista)):
     namn = sorteradeResultatLista[i][0]
