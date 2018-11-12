@@ -26,7 +26,7 @@ def main():
     poangLista = [2,1,45,8]
     resultatLista = skapaLista(namnLista,poangLista)
     sorteradResultatLista = sorteraLista(resultatLista)
-    #skrivUtLista(sorteradResultatLista)
+    skrivUtLista(sorteradResultatLista)
 
 
 main()
