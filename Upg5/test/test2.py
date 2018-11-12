@@ -8,8 +8,6 @@ def skapaLista(namnLista,poangLista):
 def sorteraLista(resultatLista):
     def func(x):
         return x[1]
-    reultatItems = resultatLista.items()
-    print(reultatItems)
     sorteradResultatLista = sorted(resultatLista.items(), key = func, reverse = True)
     return sorteradResultatLista
 
