@@ -6,9 +6,9 @@ def skapaLista(namnLista,poangLista):
 
 
 def sorteraLista(resultatLista):
-    def func(x):
-        return x[1]
-    sorteradResultatLista = sorted(resultatLista.items(), key = func, reverse = True)
+    def andraVärdet(listelement):
+        return listelement[1]
+    sorteradResultatLista = sorted(resultatLista.items(), key = andraVärdet, reverse = True)
     return sorteradResultatLista
 
 
